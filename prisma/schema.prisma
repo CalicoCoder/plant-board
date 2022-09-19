@@ -16,10 +16,10 @@ model Example {
 
 model Plant {
   id Int @id @default(autoincrement())
-  commonName String @default("plant common name (ex: snake plant)")
   nickName String?
-  purchaseDate DateTime?
-  waterDates DateTime[]
+  commonName String @default("plant common name (ex: snake plant)")
+  purchaseDate DateTime? @db.Date
+  waterDates DateTime[] @db.Date
   waterInstructions String?
   notes String?
 }

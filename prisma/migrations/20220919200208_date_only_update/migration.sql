@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Plant" ALTER COLUMN "purchaseDate" SET DATA TYPE DATE,
+ALTER COLUMN "waterDates" SET DATA TYPE DATE[];

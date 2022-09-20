@@ -85,7 +85,6 @@ const load = async () => {
         await prisma.$queryRaw`SELECT setval('"Plant_id_seq"', 1, false);`;
         console.log('reset plant auto increment to 1');
 
-
         await prisma.plant.createMany({
             data: plants,
         });

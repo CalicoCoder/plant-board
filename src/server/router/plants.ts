@@ -1,5 +1,27 @@
 import { createRouter } from "./context";
 import { z } from "zod";
+import { Prisma } from '@prisma/client'
+import { prismaClient } from "../db/client";
+
+const mainPlantSummary = Prisma.validator<Prisma.PlantSelect>()({
+  id: true,  
+  nickName: true,
+  commonName: true,
+  waterInstructions: true,
+  waterDates: {
+    select: {
+      date: true
+    },
+    take: 1,
+    orderBy: {
+      date: 'asc',
+    },
+  },
+});
+
+export type MainPlantSummaryPayload = Prisma.PlantGetPayload<{
+  select: typeof mainPlantSummary
+}>;
 
 export const plantRouter = createRouter()
   .query("plantByNickname", {
@@ -10,16 +32,18 @@ export const plantRouter = createRouter()
       .nullish(),
     async resolve({ input }) {
       return {
-        plant: await prisma.plant.findUnique({
+        plant: await prismaClient.plant.findUnique({
           where: {
-            nickName: input?.nickname ?? ""
+            nickName: input!.nickname
           }
         }),
       };
     },
   })
-  .query("getAll", {
+  .query("getPlantsSummary", {
     async resolve({ ctx }) {
-      return {plants: await ctx.prisma.plant.findMany()}
+     return await ctx.prismaClient.plant.findMany({
+       select: mainPlantSummary
+     });
     },
   });

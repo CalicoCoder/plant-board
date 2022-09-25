@@ -72,68 +72,75 @@ const plants = [
   // },
 ];
 
+async function resetDatabase() {
+  await prisma.waterDate.deleteMany();
+  await prisma.plant.deleteMany();
+  console.log('Deleted all existing plants');
+
+  await prisma.$queryRaw`SELECT setval('"Plant_id_seq"', 1, false);`;
+  console.log('reset plant auto increment to 1');
+}
+
+async function createSampleRecords() {
+  await prisma.plant.create({
+    data: {
+      nickName: 'The ZZ',
+      commonName: 'ZZ Plant',
+      waterDates: {
+        create: [{date: new Date('2022-9-1')}, {date: new Date('2022-8-3')}]
+      }
+    }
+  });
+
+  await prisma.plant.create({
+    data: {
+      nickName: 'Queen Pothos',
+      commonName: 'Marble Queen Pothos',
+      purchaseDate: new Date('2022-09-13'),
+    }
+  });
+
+  await prisma.plant.create({
+    data: {
+      commonName: 'Golden Pothos',
+      waterDates: {
+        create: {
+          date: new Date('2022-8-28')
+        }
+      }
+    }
+  });
+
+  await prisma.plant.create({
+    data: {
+      nickName: 'Pothos #2',
+      commonName: 'Pothos',
+      waterDates: {
+        create: {
+          date: new Date('2022-8-28')
+        }
+      }
+    }
+  });
+
+  // await prisma.plant.create({
+  //   data: {
+  //     waterDates: {
+  //       create: {
+  //         date: new Date('2022-9-1')
+  //       }
+  //     }
+  //   }
+  // });
+  // Template
+
+  console.log('Added plant sample data');
+}
+
 const load = async () => {
   try {
-    await prisma.waterDate.deleteMany();
-    await prisma.plant.deleteMany();
-    console.log('Deleted all existing plants');
-
-    await prisma.$queryRaw`SELECT setval('"Plant_id_seq"', 1, false);`;
-    console.log('reset plant auto increment to 1');
-
-    await prisma.plant.create({
-      data: {
-        nickName: 'The ZZ',
-        commonName: 'ZZ Plant',
-        waterDates: {
-          create: [{date: new Date('2022-9-1')}, {date: new Date('2022-8-3')}]
-        }
-      }
-    });
-
-    await prisma.plant.create({
-      data: {
-            nickName: 'Queen Pothos',
-            commonName: 'Marble Queen Pothos',
-            purchaseDate: new Date('2022-09-13'),
-      }
-    });
-
-    await prisma.plant.create({
-      data: {
-        commonName: 'Golden Pothos',
-        waterDates: {
-          create: {
-            date: new Date('2022-8-28')
-          }
-        }
-      }
-    });
-
-    await prisma.plant.create({
-      data: {
-        nickName: 'Pothos #2',
-        commonName: 'Pothos',
-        waterDates: {
-          create: {
-            date: new Date('2022-8-28')
-          }
-        }
-      }
-    });
-
-    // await prisma.plant.create({
-    //   data: {
-    //     waterDates: {
-    //       create: {
-    //         date: new Date('2022-9-1')
-    //       }
-    //     }
-    //   }
-    // });
-    // Template
-
-    console.log('Added plant sample data');
+    await resetDatabase();
+    await createSampleRecords();
   } catch (e) {
     console.error(e);
     process.exit(1);
@@ -143,4 +150,3 @@ const load = async () => {
 };
 
 load();
-export {}

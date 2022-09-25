@@ -16,7 +16,7 @@ model Example {
 
 model WaterDate {
   id      Int        @id @default(autoincrement())
-  date    DateTime[] @db.Date
+  date    DateTime   @db.Date
   plant   Plant      @relation("WateredPlant", fields: [plantId], references: [id])
   plantId Int
 }

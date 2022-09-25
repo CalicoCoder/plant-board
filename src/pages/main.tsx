@@ -17,11 +17,12 @@ const Main: NextPage = () => {
                   <div
                     className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown"
                     key={plant.id}>
-                    <div
-                      className="flex justify-center w-full text-center text-xl p-2">{plant.nickName ? plant.nickName : "NO NICKNAME"}</div>
-                    <div className="flex justify-center w-full text-center p-2">{plant.commonName}</div>
+                    <div className="flex flex-col justify-center w-full text-center p-2 ">
+                      <div className="text-xl text-bold">{plant.nickName ? plant.nickName : "NO NICKNAME"}</div>
+                      <div className="text-xs text-slate-600">{plant.commonName}</div>
+                    </div>
                     <div className="flex justify-center w-full flex-col justify-center items-center text-sm p-2">
-                      <div>{plant.waterDates[0] ? plant.waterDates[0].date.toString() : ""}</div>
+                      <div>{plant.waterDates[0] ? plant.waterDates[0].date.toLocaleString('en-US', { dateStyle: 'medium' }) : "Not watered yet :("}</div>
                     </div>
                   </div>
                 );

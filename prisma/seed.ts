@@ -1,75 +1,104 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const {PrismaClient} = require('@prisma/client');
+import {Prisma, PrismaClient} from '@prisma/client'
+
 const prisma = new PrismaClient();
 
-const plants = [
-  // {
-  //     nickName: 'Big ZZ',
-  //     commonName: 'ZZ Plant',
-  //     waterDates: [new Date('2022-8-4')]
-  // },
-  // {
-  //     nickName: 'Queen Pothos',
-  //     commonName: 'Marble Queen Pothos',
-  //     purchaseDate: new Date('2022-09-13'),
-  // },
-  // {
-  //     commonName: 'Golden Pothos',
-  //     waterDates: [new Date('2022-8-28')]
-  // },
-  // {
-  //     nickName: 'Pothos #2',
-  //     commonName: 'Pothos',
-  //     waterDates: [new Date('2022-8-28')]
-  // },
-  // {
-  //     nickName: 'Monstera #1',
-  //     commonName: 'Monstera deliciosa',
-  //     waterDates: [new Date('2022-9-12')]
-  // },
-  // {
-  //     nickName: 'Monstera #2',
-  //     commonName: 'Monstera deliciosa',
-  //     waterDates: [new Date('2022-8-28')]
-  // },
-  // {
-  //     commonName: 'Philodendren',
-  //     purchaseDate: new Date('2022-5-8'),
-  //     waterDates: [new Date('2022-9-15')]
-  // },
-  // {
-  //     nickName: 'Monty',
-  //     commonName: 'Monstera deliciosa',
-  //     waterDates: [new Date('2022-8-28')]
-  // },
-  // {
-  //     nickName: 'M/L Fiddle',
-  //     commonName: 'Fiddle Leaf Fig',
-  //     waterDates: [new Date('2022-9-13')],
-  //     waterInstructions: '1 cup per foot'
-  // },
-  // {
-  //     nickName: 'Lil Fiddle',
-  //     commonName: 'Fiddle Leaf Fig',
-  //     purchaseDate: new Date('2021-5-9'),
-  //     waterDates: [new Date('2022-9-13')],
-  //     waterInstructions: '1/2 cup from bottom'
-  // },
-  // {
-  //     nickName: 'BB Cacti',
-  //     commonName: 'Cactus',
-  //     waterDates: [new Date('2022-7-14')]
-  // },
-  // {
-  //     nickName: 'Cacti',
-  //     commonName: 'Cactus',
-  //     waterDates: [new Date('2022-8-4')]
-  // },
-  // {
-  //     nickName: 'Superba',
-  //     commonName: 'Fittonia',
-  //     purchaseDate: new Date('2022-9-13'),
-  // },
+const plantsData: Prisma.PlantCreateInput[] = [
+  {
+    nickName: 'The ZZ',
+    commonName: 'ZZ Plant',
+    waterDates: {
+      create: [{date: new Date('2022-9-1')}, {date: new Date('2022-8-3')}]
+    }
+  },
+  {
+    nickName: 'Queen Pothos',
+    commonName: 'Marble Queen Pothos',
+    purchaseDate: new Date('2022-09-13'),
+  },
+  {
+    commonName: 'Golden Pothos',
+    waterDates: {
+      create: {date: new Date('2022-8-28')}
+    }
+  },
+  {
+    nickName: 'Pothos #2',
+    commonName: 'Pothos',
+    waterDates: {
+      create: {date: new Date('2022-8-28')}
+    }
+  },
+  {
+    nickName: 'Big ZZ',
+    commonName: 'ZZ Plant',
+    waterDates: {
+      create: {date: new Date('2022-8-4')}
+    }
+  },
+  {
+    nickName: 'Monstera #1',
+    commonName: 'Monstera deliciosa',
+    waterDates: {
+      create: {date: new Date('2022-9-12')}
+    }
+  },
+  {
+    nickName: 'Monstera #2',
+    commonName: 'Monstera deliciosa',
+    waterDates: {
+      create: {date: new Date('2022-8-28')}
+    }
+  },
+  {
+    commonName: 'Philodendren',
+    purchaseDate: new Date('2022-5-8'),
+    waterDates: {
+      create: {date: new Date('2022-9-15')}
+    }
+  },
+  {
+    nickName: 'Monty',
+    commonName: 'Monstera deliciosa',
+    waterDates: {
+      create: {date: new Date('2022-8-28')}
+    }
+  },
+  {
+    nickName: 'M/L Fiddle',
+    commonName: 'Fiddle Leaf Fig',
+    waterDates: {
+      create: {date: new Date('2022-9-13')}
+    },
+    waterInstructions: '1 cup per foot'
+  },
+  {
+    nickName: 'Lil Fiddle',
+    commonName: 'Fiddle Leaf Fig',
+    purchaseDate: new Date('2021-5-9'),
+    waterDates: {
+      create: {date: new Date('2022-9-13')}
+    },
+    waterInstructions: '1/2 cup from bottom'
+  },
+  {
+    nickName: 'BB Cacti',
+    commonName: 'Cactus',
+    waterDates: {
+      create: {date: new Date('2022-7-14')}
+    }
+  },
+  {
+    nickName: 'Cacti',
+    commonName: 'Cactus',
+    waterDates: {
+      create: {date: new Date('2022-8-4')}
+    }
+  },
+  {
+    nickName: 'Superba',
+    commonName: 'Fittonia',
+    purchaseDate: new Date('2022-9-13'),
+  },
 ];
 
 async function resetDatabase() {
@@ -82,57 +111,9 @@ async function resetDatabase() {
 }
 
 async function createSampleRecords() {
-  await prisma.plant.create({
-    data: {
-      nickName: 'The ZZ',
-      commonName: 'ZZ Plant',
-      waterDates: {
-        create: [{date: new Date('2022-9-1')}, {date: new Date('2022-8-3')}]
-      }
-    }
-  });
-
-  await prisma.plant.create({
-    data: {
-      nickName: 'Queen Pothos',
-      commonName: 'Marble Queen Pothos',
-      purchaseDate: new Date('2022-09-13'),
-    }
-  });
-
-  await prisma.plant.create({
-    data: {
-      commonName: 'Golden Pothos',
-      waterDates: {
-        create: {
-          date: new Date('2022-8-28')
-        }
-      }
-    }
-  });
-
-  await prisma.plant.create({
-    data: {
-      nickName: 'Pothos #2',
-      commonName: 'Pothos',
-      waterDates: {
-        create: {
-          date: new Date('2022-8-28')
-        }
-      }
-    }
-  });
-
-  // await prisma.plant.create({
-  //   data: {
-  //     waterDates: {
-  //       create: {
-  //         date: new Date('2022-9-1')
-  //       }
-  //     }
-  //   }
-  // });
-  // Template
+  for (const plant of plantsData) {
+    await prisma.plant.create({data: plant});
+  }
 
   console.log('Added plant sample data');
 }

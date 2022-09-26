@@ -22,7 +22,7 @@ export default function Layout({
         <meta name="twitter:card" content="summary_large_image" />
         <title>Plant Board</title>
       </Head>
-      <header className="flex justify-center py-2 bg-green-300 border border-b-medium-brown border-b-4">
+      <header className="flex justify-center py-2 bg-green-leaf border border-b-medium-brown border-b-4">
         <Image
           priority
           src="/images/logo.png"
@@ -31,7 +31,7 @@ export default function Layout({
           alt="plant board logo"
         />
       </header>
-      <main className="bg-light-brown">{children}</main>
+      <main className="bg-brown-texture">{children}</main>
     </div>
   )
 }

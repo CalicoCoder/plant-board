@@ -8,6 +8,7 @@ const mainPlantSummary = Prisma.validator<Prisma.PlantSelect>()({
   nickName: true,
   commonName: true,
   waterInstructions: true,
+  purchaseDate: true,
   waterDates: {
     select: {
       date: true

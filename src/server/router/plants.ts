@@ -48,4 +48,21 @@ export const plantRouter = createRouter()
        select: mainPlantSummary
      });
     },
+  })
+  .mutation("addWaterDate", {
+    input: z
+      .object({
+        // waterDate: z.date(),
+        plantId: z.number()
+      }),
+    async resolve({input}){
+      return {
+        result: await prismaClient.waterDate.create({
+          data:{
+            date: new Date(),
+            plantId: input.plantId
+          }
+        }),
+      }
+    }
   });

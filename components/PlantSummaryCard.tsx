@@ -3,6 +3,8 @@ import {MainPlantSummaryPayload} from "../src/server/router/plants";
 import {IoWaterOutline} from "react-icons/io5";
 import {TbNotes} from "react-icons/tb"
 import {BiDollar} from "react-icons/bi";
+import {GiWateringCan} from "react-icons/gi";
+import {trpc} from "../src/utils/trpc";
 
 function PlantSummaryField(props: { fieldValue: string, icon: ReactNode }) {
   return <div className="p-2 text-center w-full relative">
@@ -22,11 +24,26 @@ function SummaryHeading(props: { plant: MainPlantSummaryPayload; }) {
 }
 
 export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload; }) {
+  const waterMutation = trpc.useMutation(["plant.addWaterDate"]);
+
+  function handleWaterEvent(plantId: number){
+    /*
+      TODO:
+        Fix the latest date not showing after manual refresh
+        Make sure the data refreshes automatically
+        Add ability to specify date
+     */
+    waterMutation.mutate({plantId})
+  }
+
   return (
     <div
-      className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown">
-      <div className="flex flex-col justify-center w-full text-center p-2">
-        <SummaryHeading {...props}/>
+      className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
+      <div>
+        <GiWateringCan className="absolute right-0 top-0 p-0.5 cursor-pointer" onClick={() => handleWaterEvent(props.plant.id)}/>
+        <div className="flex flex-col justify-center w-full text-center p-2">
+          <SummaryHeading {...props}/>
+        </div>
       </div>
       <div
         className="flex justify-center w-full flex-col items-center text-sm divide-y divide-dashed divide-medium-brown">

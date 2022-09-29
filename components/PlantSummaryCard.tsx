@@ -7,10 +7,12 @@ import {GiWateringCan} from "react-icons/gi";
 import {trpc} from "../src/utils/trpc";
 
 function PlantSummaryField(props: { fieldValue: string, icon: ReactNode }) {
-  return <div className="p-2 text-center w-full relative">
-    <div className="absolute left-0 top-0 p-0.5">{props.icon}</div>
-    {props.fieldValue}
-  </div>;
+  return (
+    <div className="p-2 text-center w-full relative">
+      <div className="absolute left-0 top-0 p-0.5">{props.icon}</div>
+      {props.fieldValue}
+    </div>
+  );
 }
 
 function SummaryHeading(props: { plant: MainPlantSummaryPayload; }) {
@@ -23,24 +25,25 @@ function SummaryHeading(props: { plant: MainPlantSummaryPayload; }) {
     (<div className="text-xl text-bold">{props.plant.commonName}</div>)
 }
 
-export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload; }) {
-  const waterMutation = trpc.useMutation(["plant.addWaterDate"]);
+export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload, refreshData: () => Promise<void> }) {
+  const waterDateMutation = trpc.useMutation(["plant.addWaterDate"],
+    {
+      onSuccess: () => {
+        props.refreshData()
+      },
+    }
+  );
 
-  function handleWaterEvent(plantId: number){
-    /*
-      TODO:
-        Fix the latest date not showing after manual refresh
-        Make sure the data refreshes automatically
-        Add ability to specify date
-     */
-    waterMutation.mutate({plantId})
+  function handleWaterEvent(plantId: number) {
+    waterDateMutation.mutate({plantId})
   }
 
   return (
     <div
       className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
       <div>
-        <GiWateringCan className="absolute right-0 top-0 p-0.5 cursor-pointer" onClick={() => handleWaterEvent(props.plant.id)}/>
+        <GiWateringCan className="absolute right-0 top-0 p-0.5 cursor-pointer"
+                       onClick={() => handleWaterEvent(props.plant.id)}/>
         <div className="flex flex-col justify-center w-full text-center p-2">
           <SummaryHeading {...props}/>
         </div>

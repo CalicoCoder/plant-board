@@ -16,7 +16,7 @@ const mainPlantSummary = Prisma.validator<Prisma.PlantSelect>()({
     },
     take: 1,
     orderBy: {
-      date: 'asc',
+      date: 'desc',
     },
   },
 });

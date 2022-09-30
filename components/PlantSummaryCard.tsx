@@ -6,10 +6,10 @@ import {BiDollar} from "react-icons/bi";
 import {GiWateringCan} from "react-icons/gi";
 import {trpc} from "../src/utils/trpc";
 
-function PlantSummaryField(props: { fieldValue: string, icon: ReactNode }) {
+function PlantSummaryField(props: { fieldValue: string, icon?: ReactNode }) {
   return (
     <div className="p-2 text-center w-full relative">
-      <div className="absolute left-0 top-0 p-0.5">{props.icon}</div>
+      {props.icon && <div className="absolute left-0 top-0 p-0.5">{props.icon}</div>}
       {props.fieldValue}
     </div>
   );
@@ -38,6 +38,14 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
     waterDateMutation.mutate({plantId})
   }
 
+  function getDateString(date: Date) {
+    return date.toLocaleString('en-US', {dateStyle: 'medium'});
+  }
+
+  function getWaterDateDisplay() {
+    return props.plant.waterDates[0] ? getDateString(props.plant.waterDates[0].date) : "Not watered yet :(";
+  }
+
   return (
     <div
       className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
@@ -50,18 +58,15 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
       </div>
       <div
         className="flex justify-center w-full flex-col items-center text-sm divide-y divide-dashed divide-medium-brown">
-        <div className="p-2 text-center w-full relative">
-          <div className="absolute left-0 top-0 p-0.5"><IoWaterOutline/></div>
-          <div>{props.plant.waterDates[0] ? props.plant.waterDates[0].date.toLocaleString('en-US', {dateStyle: 'medium'}) : "Not watered yet :("}</div>
-          <div
-            className="p-2 text-center w-full">{props.plant.waterInstructions ? props.plant.waterInstructions : "N/A"}</div>
+        <div className="text-center w-full relative">
+          <PlantSummaryField icon={<IoWaterOutline/>} fieldValue={getWaterDateDisplay()}/>
+          {props.plant.waterInstructions &&
+            <PlantSummaryField fieldValue={props.plant.waterInstructions}/>}
         </div>
         {props.plant.purchaseDate &&
-          <PlantSummaryField icon={<BiDollar/>}
-                             fieldValue={props.plant.purchaseDate.toLocaleString("en-US", {dateStyle: "medium"})}/>}
+          <PlantSummaryField icon={<BiDollar/>} fieldValue={getDateString(props.plant.purchaseDate)}/>}
         {props.plant.notes &&
-          <PlantSummaryField icon={<TbNotes/>}
-                             fieldValue={props.plant.notes}/>}
+          <PlantSummaryField icon={<TbNotes/>} fieldValue={props.plant.notes}/>}
       </div>
     </div>
   );

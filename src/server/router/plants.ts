@@ -52,14 +52,14 @@ export const plantRouter = createRouter()
   .mutation("addWaterDate", {
     input: z
       .object({
-        // waterDate: z.date(),
+        waterDate: z.date(),
         plantId: z.number()
       }),
     async resolve({input}){
       return {
         result: await prismaClient.waterDate.create({
           data:{
-            date: new Date(),
+            date: input.waterDate,
             plantId: input.plantId
           }
         }),

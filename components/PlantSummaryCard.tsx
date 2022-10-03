@@ -3,8 +3,8 @@ import {MainPlantSummaryPayload} from "../src/server/router/plants";
 import {IoWaterOutline} from "react-icons/io5";
 import {TbNotes} from "react-icons/tb"
 import {BiDollar} from "react-icons/bi";
-import {GiWateringCan} from "react-icons/gi";
 import {trpc} from "../src/utils/trpc";
+import DatePopover from "./Popover";
 
 function PlantSummaryField(props: { fieldValue: string, icon?: ReactNode }) {
   return (
@@ -34,8 +34,8 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
     }
   );
 
-  function handleWaterEvent(plantId: number) {
-    waterDateMutation.mutate({plantId})
+  function handleWaterEvent(date: string) {
+    waterDateMutation.mutate({plantId: props.plant.id, waterDate: new Date(date)});
   }
 
   function getDateString(date: Date) {
@@ -50,8 +50,12 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
     <div
       className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
       <div>
-        <GiWateringCan className="absolute right-0 top-0 p-0.5 cursor-pointer"
-                       onClick={() => handleWaterEvent(props.plant.id)}/>
+        <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
+          {
+            // Need to fix issue here with types, and implement a solution to get proper user timezone to fix inconsistent dates
+          }
+          <DatePopover saveData={handleWaterEvent}> </DatePopover>
+        </div>
         <div className="flex flex-col justify-center w-full text-center p-2">
           <SummaryHeading {...props}/>
         </div>

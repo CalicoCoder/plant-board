@@ -5,6 +5,7 @@ import {TbNotes} from "react-icons/tb"
 import {BiDollar} from "react-icons/bi";
 import {trpc} from "../src/utils/trpc";
 import DatePopover from "./Popover";
+import {getDateDisplayString} from "../src/utils/dateUtils";
 
 function PlantSummaryField(props: { fieldValue: string, icon?: ReactNode }) {
   return (
@@ -15,7 +16,7 @@ function PlantSummaryField(props: { fieldValue: string, icon?: ReactNode }) {
   );
 }
 
-function SummaryHeading(props: { plant: MainPlantSummaryPayload; }) {
+function PlantSummaryHeading(props: { plant: MainPlantSummaryPayload; }) {
   return props.plant.nickName ?
     (<>
       <div className="text-xl text-bold">{props.plant.nickName}</div>
@@ -38,12 +39,8 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
     waterDateMutation.mutate({plantId: props.plant.id, waterDate: new Date(date)});
   }
 
-  function getDateString(date: Date) {
-    return date.toLocaleString('en-US', {dateStyle: 'medium'});
-  }
-
   function getWaterDateDisplay() {
-    return props.plant.waterDates[0] ? getDateString(props.plant.waterDates[0].date) : "Not watered yet :(";
+    return props.plant.waterDates[0] ? getDateDisplayString(props.plant.waterDates[0].date) : "Not watered yet :(";
   }
 
   return (
@@ -52,12 +49,12 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
       <div>
         <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
           {
-            // Need to fix issue here with types, and implement a solution to get proper user timezone to fix inconsistent dates
+            // Need to fix issue here with types
           }
           <DatePopover saveData={handleWaterEvent}> </DatePopover>
         </div>
         <div className="flex flex-col justify-center w-full text-center p-2">
-          <SummaryHeading {...props}/>
+          <PlantSummaryHeading {...props}/>
         </div>
       </div>
       <div
@@ -68,7 +65,7 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
             <PlantSummaryField fieldValue={props.plant.waterInstructions}/>}
         </div>
         {props.plant.purchaseDate &&
-          <PlantSummaryField icon={<BiDollar/>} fieldValue={getDateString(props.plant.purchaseDate)}/>}
+          <PlantSummaryField icon={<BiDollar/>} fieldValue={getDateDisplayString(props.plant.purchaseDate)}/>}
         {props.plant.notes &&
           <PlantSummaryField icon={<TbNotes/>} fieldValue={props.plant.notes}/>}
       </div>

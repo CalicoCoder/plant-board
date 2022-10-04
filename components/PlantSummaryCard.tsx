@@ -5,11 +5,11 @@ import {TbNotes} from "react-icons/tb"
 import {BiDollar} from "react-icons/bi";
 import {trpc} from "../src/utils/trpc";
 import DatePopover from "./Popover";
-import {getDateDisplayString} from "../src/utils/dateUtils";
+import {getDateDisplayString, getShortDate} from "../src/utils/dateUtils";
 
-function PlantSummaryField(props: { fieldValue: string, icon?: ReactNode }) {
+function PlantSummaryField(props: { fieldValue: string, icon?: ReactNode, toolTipText?: string | undefined }) {
   return (
-    <div className="p-2 text-center w-full relative">
+    <div className="p-2 text-center w-full relative" title={props.toolTipText}>
       {props.icon && <div className="absolute left-0 top-0 p-0.5">{props.icon}</div>}
       {props.fieldValue}
     </div>
@@ -43,6 +43,10 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
     return props.plant.waterDates[0] ? getDateDisplayString(props.plant.waterDates[0].date) : "Not watered yet :(";
   }
 
+  function getWaterDateToolTip() {
+    return props.plant.waterDates[0] ? getShortDate(props.plant.waterDates[0].date) : undefined;
+  }
+
   return (
     <div
       className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
@@ -60,12 +64,13 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
       <div
         className="flex justify-center w-full flex-col items-center text-sm divide-y divide-dashed divide-medium-brown">
         <div className="text-center w-full relative">
-          <PlantSummaryField icon={<IoWaterOutline/>} fieldValue={getWaterDateDisplay()}/>
+          <PlantSummaryField icon={<IoWaterOutline/>} fieldValue={getWaterDateDisplay()} toolTipText={getWaterDateToolTip()}/>
           {props.plant.waterInstructions &&
             <PlantSummaryField fieldValue={props.plant.waterInstructions}/>}
         </div>
         {props.plant.purchaseDate &&
-          <PlantSummaryField icon={<BiDollar/>} fieldValue={getDateDisplayString(props.plant.purchaseDate)}/>}
+          <PlantSummaryField icon={<BiDollar/>} fieldValue={getDateDisplayString(props.plant.purchaseDate)}
+                             toolTipText={getShortDate(props.plant.purchaseDate)}/>}
         {props.plant.notes &&
           <PlantSummaryField icon={<TbNotes/>} fieldValue={props.plant.notes}/>}
       </div>

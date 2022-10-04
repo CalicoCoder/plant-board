@@ -1,4 +1,4 @@
-import {differenceInDays, formatDistanceToNowStrict} from "date-fns";
+import {differenceInDays, format, formatDistanceToNowStrict} from "date-fns";
 
 function getUtcDate(date: Date) {
   const utcDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
@@ -21,4 +21,8 @@ export function getDateDisplayString(date: Date) {
     default:
       return `${formatDistanceToNowStrict(utcDate, {unit: 'day'})} ago`;
   }
+}
+
+export function getShortDate(date: Date){
+  return format(getUtcDate(date), 'MM/dd/yyyy');
 }

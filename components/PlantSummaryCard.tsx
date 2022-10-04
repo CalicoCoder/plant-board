@@ -52,10 +52,7 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
       className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
       <div>
         <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
-          {
-            // Need to fix issue here with types
-          }
-          <DatePopover saveData={handleWaterEvent}> </DatePopover>
+          <DatePopover title="Watered On:" saveDate={handleWaterEvent} />
         </div>
         <div className="flex flex-col justify-center w-full text-center p-2">
           <PlantSummaryHeading {...props}/>

@@ -18,13 +18,12 @@ function getUtcDate(date: Date) {
 export function getDateDisplayString(date: Date) {
   const utcDate = getUtcDate(date);
   const daysSinceLastWater = differenceInDays(new Date(), utcDate)
-  switch (daysSinceLastWater) {
-    case 0:
-      return 'Today!'
-    case 1:
-      return 'Yesterday!'
-    default:
-      return `${formatDistanceToNowStrict(utcDate, {unit: 'day'})} ago`;
+  if (daysSinceLastWater == 0) {
+    return 'Today!'
+  } else if (daysSinceLastWater == 1) {
+    return 'Yesterday!'
+  } else {
+    return formatDistanceToNowStrict(utcDate, {addSuffix: true});
   }
 }
 
@@ -33,7 +32,7 @@ export function getDateDisplayString(date: Date) {
  * Ex: 12/25/2020 (MM/dd/yyyy)
  * @param date local date object that will be converted to UTC time for DB consistency
  */
-export function getShortDate(date: Date){
+export function getShortDate(date: Date) {
   return format(getUtcDate(date), 'MM/dd/yyyy');
 }
 
@@ -41,6 +40,6 @@ export function getShortDate(date: Date){
  * Returns the current date in correct format to use in HTML5 date picker input element.
  * Ex: 2020-12-25 (yyyy-MM-dd)
  */
-export function getTodayInHtmlInputFormat(){
+export function getTodayInHtmlInputFormat() {
   return format(new Date(), 'yyyy-MM-dd');
 }

@@ -9,6 +9,7 @@ module.exports = {
       },
       transformOrigin: {
         'popover': 'var(--radix-popover-content-transform-origin)',
+        'tooltip': 'var(--radix-tooltip-content-transform-origin)'
       },
       animation: {
         'scaleIn': 'scaleIn .2s ease-in-out',

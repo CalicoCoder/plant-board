@@ -6,12 +6,20 @@ import {BiDollar} from "react-icons/bi";
 import {trpc} from "../src/utils/trpc";
 import DatePopover from "./Popover";
 import {getDateDisplayString, getShortDate} from "../src/utils/dateUtils";
+import {InfoTooltip} from "./Tooltips";
 
-function PlantSummaryField(props: { fieldValue: string, icon?: ReactNode, toolTipText?: string | undefined }) {
+function PlantSummaryField(props: { fieldValue: string, fieldTooltipText?: string, icon?: ReactNode, iconTooltipText?: string, }) {
   return (
-    <div className="p-2 text-center w-full relative" title={props.toolTipText}>
-      {props.icon && <div className="absolute left-0 top-0 p-0.5">{props.icon}</div>}
-      {props.fieldValue}
+    <div className="p-2 text-center w-full relative">
+      {props.icon && props.iconTooltipText &&
+        <InfoTooltip triggerContent={props.icon} iconTooltipText={props.iconTooltipText}
+                     cssClasses="absolute left-0 top-0 p-0.5"/>
+      }
+      {
+        props.fieldTooltipText ?
+          <InfoTooltip triggerContent={props.fieldValue} iconTooltipText={props.fieldTooltipText}/> :
+          <span>{props.fieldValue}</span>
+      }
     </div>
   );
 }
@@ -43,16 +51,12 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
     return props.plant.waterDates[0] ? getDateDisplayString(props.plant.waterDates[0].date) : "Not watered yet :(";
   }
 
-  function getWaterDateToolTip() {
-    return props.plant.waterDates[0] ? getShortDate(props.plant.waterDates[0].date) : undefined;
-  }
-
   return (
     <div
       className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
       <div>
         <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
-          <DatePopover title="Watered On:" saveDate={handleWaterEvent} />
+          <DatePopover title="Watered On:" saveDate={handleWaterEvent}/>
         </div>
         <div className="flex flex-col justify-center w-full text-center p-2">
           <PlantSummaryHeading {...props}/>
@@ -61,13 +65,16 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
       <div
         className="flex justify-center w-full flex-col items-center text-sm divide-y divide-dashed divide-medium-brown">
         <div className="text-center w-full relative">
-          <PlantSummaryField icon={<IoWaterOutline/>} fieldValue={getWaterDateDisplay()} toolTipText={getWaterDateToolTip()}/>
+          <PlantSummaryField icon={<IoWaterOutline/>} iconTooltipText="Water Info"
+                             fieldValue={getWaterDateDisplay()}
+                             fieldTooltipText={props.plant.waterDates[0] && getShortDate(props.plant.waterDates[0].date)}/>
           {props.plant.waterInstructions &&
             <PlantSummaryField fieldValue={props.plant.waterInstructions}/>}
         </div>
         {props.plant.purchaseDate &&
-          <PlantSummaryField icon={<BiDollar/>} fieldValue={getDateDisplayString(props.plant.purchaseDate)}
-                             toolTipText={getShortDate(props.plant.purchaseDate)}/>}
+          <PlantSummaryField icon={<BiDollar/>} iconTooltipText="Purchase Date"
+                             fieldValue={getDateDisplayString(props.plant.purchaseDate)}
+                             fieldTooltipText={getShortDate(props.plant.purchaseDate)}/>}
         {props.plant.notes &&
           <PlantSummaryField icon={<TbNotes/>} fieldValue={props.plant.notes}/>}
       </div>

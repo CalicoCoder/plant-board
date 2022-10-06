@@ -18,7 +18,7 @@ export default function DatePopover(props: {
     <Popover>
       <PopoverTrigger><GiWateringCan size="1.2em"/></PopoverTrigger>
       <PopoverContent align="start"
-                      className="border-2 border-medium-brown bg-green-300 rounded-lg p-2 animate-scaleIn origin-popover cursor-default drop-shadow-lg z-10 space-y-2">
+                      className="border-2 border-medium-brown bg-green-leaf rounded-lg p-2 animate-scaleIn origin-popover cursor-default drop-shadow-lg z-10 space-y-2">
         <PopoverArrow className="fill-medium-brown"/>
         <div>{props.title}</div>
         <input className="rounded-lg cursor-pointer" type="date" value={date}

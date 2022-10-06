@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
-function ToolTipContent(props: { tooltipText: string }) {
+function ToolTipContent(props: { tooltipText: ReactNode }) {
   return (
     <Tooltip.Content
       className="border border-medium-brown bg-green-leaf rounded-lg p-2 drop-shadow-lg animate-scaleIn origin-tooltip">
@@ -11,7 +11,7 @@ function ToolTipContent(props: { tooltipText: string }) {
   );
 }
 
-export function InfoTooltip(props: { triggerContent: ReactNode, iconTooltipText: string, cssClasses?: string }) {
+export function InfoTooltip(props: { triggerContent: ReactNode, iconTooltipText: ReactNode, cssClasses?: string }) {
   return (
     <Tooltip.Root delayDuration={0}>
       <Tooltip.Trigger className={props.cssClasses + " cursor-help"}>

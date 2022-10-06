@@ -12,12 +12,12 @@ function PlantSummaryField(props: { fieldValue: string, fieldTooltipText?: React
   return (
     <div className="p-2 text-center w-full relative">
       {props.icon && props.iconTooltipText &&
-        <InfoTooltip triggerContent={props.icon} iconTooltipText={props.iconTooltipText}
+        <InfoTooltip triggerContent={props.icon} tooltipText={props.iconTooltipText}
                      cssClasses="absolute left-0 top-0 p-0.5"/>
       }
       {
         props.fieldTooltipText ?
-          <InfoTooltip triggerContent={props.fieldValue} iconTooltipText={props.fieldTooltipText}/> :
+          <InfoTooltip triggerContent={props.fieldValue} tooltipText={props.fieldTooltipText}/> :
           <span>{props.fieldValue}</span>
       }
     </div>
@@ -56,7 +56,7 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
       className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
       <div>
         <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
-          <DatePopover title="Watered On:" saveDate={handleWaterEvent}/>
+          <DatePopover popoverInstructions="Watered On:" tooltipText="Add Watering Date"  saveDate={handleWaterEvent}/>
         </div>
         <div className="flex flex-col justify-center w-full text-center p-2">
           <PlantSummaryHeading {...props}/>
@@ -71,7 +71,7 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
                                <span>Watered on:<br/> {getShortDate(props.plant.waterDates[0].date)}</span>
                              }/>
           {props.plant.waterInstructions &&
-            <PlantSummaryField fieldValue={props.plant.waterInstructions}/>}
+            <PlantSummaryField fieldValue={props.plant.waterInstructions} fieldTooltipText="Watering Instructions"/>}
         </div>
         {props.plant.purchaseDate &&
           <PlantSummaryField icon={<BiDollar/>} iconTooltipText="Purchase Date"

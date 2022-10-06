@@ -23,7 +23,7 @@ export function getDateDisplayString(date: Date) {
   } else if (daysSinceLastWater == 1) {
     return 'Yesterday!'
   } else {
-    return formatDistanceToNowStrict(utcDate, {addSuffix: true});
+    return formatDistanceToNowStrict(utcDate, {addSuffix: true, roundingMethod: 'floor'});
   }
 }
 

@@ -4,9 +4,7 @@ import Layout from "../../components/layout";
 import {MainPlantSummaryPayload} from "../server/router/plants";
 import PlantSummaryCard from "../../components/PlantSummaryCard";
 import React, {useEffect} from "react";
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import {RiMenuLine} from "react-icons/ri";
-import {IoAdd} from "react-icons/io5";
+import BoardMenu from "../../components/BoardMenu"
 
 const Board: NextPage = () => {
   const plantsSummaryQuery = trpc.useQuery(["plant.getPlantsSummary"]);
@@ -52,24 +50,3 @@ const Board: NextPage = () => {
 }
 
 export default Board;
-
-export function BoardMenu() {
-  return (
-    <DropdownMenu.Root defaultOpen={true}>
-      <DropdownMenu.Trigger className="fixed left-80 top-60">
-        <button className="bg-green-200 rounded-full p-2">
-          <RiMenuLine/>
-        </button>
-      </DropdownMenu.Trigger>
-
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content className="bg-slate-100 rounded-lg drop-shadow-xl animate-scaleIn origin-dropdown">
-          <DropdownMenu.Item className="menu-item">
-            <button><IoAdd/> Add New Plant</button>
-          </DropdownMenu.Item>
-          <DropdownMenu.Arrow className="fill-slate-100"/>
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
-    </DropdownMenu.Root>
-  );
-}

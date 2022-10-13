@@ -20,6 +20,9 @@ module.exports = {
           '0%': { opacity: '0%', scale: 0 },
           '100%': { opacity: '100%', scale: 1 },
         }
+      },
+      width: {
+        'v50': '50vw',
       }
     },
   },

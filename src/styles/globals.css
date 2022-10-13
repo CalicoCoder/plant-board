@@ -44,12 +44,14 @@
         padding: .3em .5em;
     }
 
-    .menu-item > button {
+    .menu-item button {
         display: flex;
         align-items: center;
     }
 
-    .menu-item > button > span {
+    .menu-item button > span {
         margin-left: 5px;
     }
+
+
 }

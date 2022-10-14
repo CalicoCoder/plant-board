@@ -53,7 +53,7 @@ const inputs = [
   },
 ];
 
-export default function PlantForm() {
+export default function PlantForm(props: {onSubmitAction: () => void}) {
   const [formValues, setFormValues] = useState({
     nickName: "",
     commonName: "",
@@ -70,6 +70,7 @@ export default function PlantForm() {
     {
       onSuccess: () => {
         console.log("plant was added :)")
+        props.onSubmitAction()
       },
     }
   );

@@ -5,10 +5,17 @@ import React from "react";
 import * as Dialog from '@radix-ui/react-dialog';
 import PlantForm from "./Forms/PlantForm";
 
-export default function BoardMenu() {
+export default function BoardMenu(props: { refreshData: () => Promise<void> }) {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  function closeDialog(){
+    setDialogOpen(false);
+    props.refreshData();
+  }
+
   return (
-    <Dialog.Root>
-      <DropdownMenu.Root defaultOpen={true}>
+    <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DropdownMenu.Root>
         <DropdownMenu.Trigger className="fixed left-80 top-60">
           <button className="bg-green-200 rounded-full p-2">
             <RiMenuLine/>
@@ -29,7 +36,7 @@ export default function BoardMenu() {
       <Dialog.Portal>
         <Dialog.Overlay className="bg-gray-900 bg-opacity-60 inset-0 fixed"/>
         <Dialog.Content
-          className="fixed top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 rounded-md bg-brown-texture w-v50"><PlantForm/></Dialog.Content>
+          className="fixed top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 rounded-md bg-brown-texture w-v50"><PlantForm onSubmitAction={closeDialog}/></Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
   );

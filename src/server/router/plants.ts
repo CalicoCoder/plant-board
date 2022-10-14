@@ -4,7 +4,7 @@ import { Prisma } from '@prisma/client'
 import { prismaClient } from "../db/client";
 
 const mainPlantSummary = Prisma.validator<Prisma.PlantSelect>()({
-  id: true,  
+  id: true,
   nickName: true,
   commonName: true,
   waterInstructions: true,
@@ -48,6 +48,33 @@ export const plantRouter = createRouter()
        select: mainPlantSummary
      });
     },
+  })
+  .mutation("createPlant", {
+    input: z
+      .object({
+        nickName: z.string(),
+        commonName: z.string().optional(),
+        purchaseDate: z.string().optional(),
+        waterInstructions: z.string().optional(),
+        notes: z.string().optional()
+      }),
+    async resolve({input}){
+      let purchaseDate = null;
+      if(input.purchaseDate) {
+        purchaseDate = new Date(input.purchaseDate);
+      }
+      return {
+        result: await prismaClient.plant.create({
+          data:{
+            nickName: input.nickName,
+            commonName: input.commonName,
+            purchaseDate: purchaseDate,
+            waterInstructions: input.waterInstructions,
+            notes: input.notes
+          }
+        }),
+      }
+    }
   })
   .mutation("addWaterDate", {
     input: z

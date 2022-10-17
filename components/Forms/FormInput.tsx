@@ -1,17 +1,21 @@
-import {useState} from "react";
+import React from "react";
 
-export default function FormInput(props) {
-  const {label, onChange, id, errorMessage, lastInput, ...inputProps} = props;
-  const [focused, setFocused] = useState(false);
+export interface StandardFormInput {
+  id: number,
+  inputAttributes: React.InputHTMLAttributes<HTMLInputElement>,
+  errorMessage: string,
+  label: string,
+  value: string,
+  onChange: React.FormEvent<HTMLInputElement>
+}
 
-  const handleFocus = (e) => {
-    setFocused(true);
-  }
+export default function FormInput(props: StandardFormInput) {
+  const {label, errorMessage} = props;
 
   return (
     <div className="flex flex-col p-1.5">
       <label>{label}</label>
-      <input className="rounded" {...inputProps} onChange={onChange} onBlur={handleFocus} onFocus={() => lastInput && setFocused(true)} focused={focused.toString()}/>
+      <input className="rounded" {...props.inputAttributes} />
       <span className="text-red-400">{errorMessage}</span>
     </div>
   )

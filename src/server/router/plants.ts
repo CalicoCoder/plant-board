@@ -52,7 +52,7 @@ export const plantRouter = createRouter()
   .mutation("createPlant", {
     input: z
       .object({
-        nickName: z.string(),
+        nickName: z.string().min(1),
         commonName: z.string().optional(),
         purchaseDate: z.string().optional(),
         waterInstructions: z.string().optional(),

@@ -1,59 +1,66 @@
 import React, {useState} from "react";
-import FormInput from "./FormInput";
+import FormInput, {StandardFormInput} from "./FormInput";
 import StandardButton from "../StandardButton";
 import {trpc} from "../../src/utils/trpc";
 import {getTodayInHtmlInputFormat} from "../../src/utils/dateUtils";
+
 const inputs = [
   {
     id: 1,
-    name: "nickName",
-    type: "text",
-    placeholder: "Your name for the plant, e.g. Mr.Monstera",
-    errorMessage: "",
+    inputAttributes: {
+      name: "nickName",
+      pattern: "",
+      placeholder: "Your name for the plant, e.g. Mr.Monstera",
+      required: true,
+      type: "text",
+    },
     label: "Plant Nickname",
-    pattern: "",
-    required: true
+
   },
   {
     id: 2,
-    name: "commonName",
-    type: "text",
-    placeholder: "Actual name of plant, e.g. Monstera deliciosa",
-    errorMessage: "",
+    inputAttributes: {
+      name: "commonName",
+      placeholder: "Actual name of plant, e.g. Monstera deliciosa",
+      required: false,
+      type: "text"
+    },
     label: "Plant Common Name",
-    required: false
-  }, {
-
+  },
+  {
     id: 3,
-    name: "purchaseDate",
-    type: "date",
-    placeholder: "",
-    errorMessage: "",
+    inputAttributes: {
+      name: "purchaseDate",
+      placeholder: "",
+      required: false,
+      type: "date"
+    },
     label: "Date of Purchase",
-    required: false
   },
   {
     id: 4,
-    name: "waterInstructions",
-    type: "text",
-    placeholder: "2 Cups from bottom",
-    errorMessage: "",
+    inputAttributes: {
+      name: "waterInstructions",
+      placeholder: "2 Cups from bottom",
+      required: false,
+      type: "text"
+    },
     label: "Watering Instructions",
-    required: false
   },
   {
-    id: 5,
-    name: "notes",
-    type: "text",
-    placeholder: "Needs direct sunlight",
-    errorMessage: "",
-    label: "Notes",
-    required: true,
-    lastInput: false
-  },
-];
 
-export default function PlantForm(props: {onSubmitAction: () => void}) {
+    id: 5,
+    inputAttributes: {
+      name: "notes",
+      placeholder: "Needs direct sunlight",
+      required: false,
+      type: "text"
+    },
+    label: "Notes",
+  },
+] as StandardFormInput[];
+
+export default function PlantForm(props: { onSubmitAction: () => void }) {
   const [formValues, setFormValues] = useState({
     nickName: "",
     commonName: "",
@@ -62,7 +69,7 @@ export default function PlantForm(props: {onSubmitAction: () => void}) {
     notes: ""
   });
 
-  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({...formValues, [e.currentTarget.name]: e.currentTarget.value});
   }
 
@@ -85,7 +92,15 @@ export default function PlantForm(props: {onSubmitAction: () => void}) {
         <div className="justify-center text-center text-xl">Add New Plant</div>
         {
           inputs.map((input) => {
-            return <FormInput key={input.id} {...input} onChange={onChange} value={formValues[input.name]}/>
+            input = {
+              ...input,
+              inputAttributes: {
+                ...input.inputAttributes,
+                onChange: onChangeHandler,
+                value: formValues[input.inputAttributes.name]
+              }
+            }
+            return <FormInput key={input.id} {...input}/>
           })
         }
         <div className="flex space-x-2 justify-center mt-4">

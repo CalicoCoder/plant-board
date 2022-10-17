@@ -7,6 +7,7 @@ import {trpc} from "../src/utils/trpc";
 import DatePopover from "./Popover";
 import {getDateDisplayString, getShortDate} from "../src/utils/dateUtils";
 import {InfoTooltip} from "./Tooltips";
+import {GiWateringCan} from "react-icons/gi";
 
 function PlantSummaryField(props: { fieldValue: string, fieldTooltipText?: ReactNode, icon?: ReactNode, iconTooltipText?: string, }) {
   return (
@@ -56,7 +57,7 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
       className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
       <div>
         <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
-          <DatePopover popoverInstructions="Watered On:" tooltipText="Add Watering Date"  saveDate={handleWaterEvent}/>
+          <DatePopover icon={<GiWateringCan className="cursor-pointer" size="1.2em"/>} popoverInstructions="Watered On:" tooltipText="Add Watering Date"  saveDate={handleWaterEvent}/>
         </div>
         <div className="flex flex-col justify-center w-full text-center p-2">
           <PlantSummaryHeading {...props}/>

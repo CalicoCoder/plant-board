@@ -1,5 +1,4 @@
 import * as PopoverPrimitive from '@radix-ui/react-popover';
-import {GiWateringCan} from "react-icons/gi";
 import {PopoverContent} from "@radix-ui/react-popover";
 import React, {ReactNode, useState} from "react";
 import {getTodayInHtmlInputFormat} from "../src/utils/dateUtils";
@@ -10,6 +9,7 @@ export const Popover = PopoverPrimitive.Root;
 export const PopoverTrigger = PopoverPrimitive.Trigger;
 
 export default function DatePopover(props: {
+  icon: ReactNode,
   popoverInstructions: string;
   tooltipText: ReactNode,
   saveDate: (date: string) => void
@@ -18,7 +18,7 @@ export default function DatePopover(props: {
 
   return (
     <Popover>
-      <PopoverTrigger><InfoTooltip triggerContent={<GiWateringCan className="cursor-pointer" size="1.2em"/>}
+      <PopoverTrigger><InfoTooltip triggerContent={props.icon}
                                    tooltipText={props.tooltipText}/></PopoverTrigger>
       <PopoverContent align="start"
                       className="border-2 border-medium-brown bg-green-leaf rounded-lg p-2 animate-scaleIn origin-popover cursor-default drop-shadow-lg z-10 space-y-2">

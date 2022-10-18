@@ -1,6 +1,6 @@
 import React, {ReactNode} from "react";
 import {MainPlantSummaryPayload} from "../src/server/router/plants";
-import {IoWaterOutline} from "react-icons/io5";
+import {IoAdd, IoWaterOutline} from "react-icons/io5";
 import {TbNotes} from "react-icons/tb"
 import {BiDollar} from "react-icons/bi";
 import {trpc} from "../src/utils/trpc";
@@ -8,6 +8,7 @@ import DatePopover from "./Popover";
 import {getDateDisplayString, getShortDate} from "../src/utils/dateUtils";
 import {InfoTooltip} from "./Tooltips";
 import {GiWateringCan} from "react-icons/gi";
+import {DialogContent, DialogTrigger, Dialog} from "./StandardDialog";
 
 function PlantSummaryField(props: { fieldValue: string, fieldTooltipText?: ReactNode, icon?: ReactNode, iconTooltipText?: string, }) {
   return (
@@ -53,36 +54,45 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
   }
 
   return (
-    <div
-      className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
-      <div>
-        <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
-          <DatePopover icon={<GiWateringCan className="cursor-pointer" size="1.2em"/>} popoverInstructions="Watered On:" tooltipText="Add Watering Date"  saveDate={handleWaterEvent}/>
-        </div>
-        <div className="flex flex-col justify-center w-full text-center p-2">
-          <PlantSummaryHeading {...props}/>
-        </div>
-      </div>
+    <>
       <div
-        className="flex justify-center w-full flex-col items-center text-sm divide-y divide-dashed divide-medium-brown">
-        <div className="text-center w-full relative">
-          <PlantSummaryField icon={<IoWaterOutline/>} iconTooltipText="Water Info"
-                             fieldValue={getWaterDateDisplay()}
-                             fieldTooltipText={props.plant.waterDates[0] &&
-                               <span>Watered on:<br/> {getShortDate(props.plant.waterDates[0].date)}</span>
-                             }/>
-          {props.plant.waterInstructions &&
-            <PlantSummaryField fieldValue={props.plant.waterInstructions} fieldTooltipText="Watering Instructions"/>}
+        className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
+        <div>
+          <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
+            <Dialog>
+              <DialogTrigger asChild={true}>
+                <button><IoAdd/></button>
+              </DialogTrigger>
+              <DialogContent><div>Another dialog</div></DialogContent>
+            </Dialog>
+            <DatePopover icon={<GiWateringCan className="cursor-pointer" size="1.2em"/>}
+                         popoverInstructions="Watered On:" tooltipText="Add Watering Date" saveDate={handleWaterEvent}/>
+          </div>
+          <div className="flex flex-col justify-center w-full text-center p-2 pt-4">
+            <PlantSummaryHeading {...props}/>
+          </div>
         </div>
-        {props.plant.purchaseDate &&
-          <PlantSummaryField icon={<BiDollar/>} iconTooltipText="Purchase Date"
-                             fieldValue={getDateDisplayString(props.plant.purchaseDate)}
-                             fieldTooltipText={
-                               <span>Purchased on:<br/> {getShortDate(props.plant.purchaseDate)}</span>
-                             }/>}
-        {props.plant.notes &&
-          <PlantSummaryField icon={<TbNotes/>} fieldValue={props.plant.notes}/>}
+        <div
+          className="flex justify-center w-full flex-col items-center text-sm divide-y divide-dashed divide-medium-brown">
+          <div className="text-center w-full relative">
+            <PlantSummaryField icon={<IoWaterOutline/>} iconTooltipText="Water Info"
+                               fieldValue={getWaterDateDisplay()}
+                               fieldTooltipText={props.plant.waterDates[0] &&
+                                 <span>Watered on:<br/> {getShortDate(props.plant.waterDates[0].date)}</span>
+                               }/>
+            {props.plant.waterInstructions &&
+              <PlantSummaryField fieldValue={props.plant.waterInstructions} fieldTooltipText="Watering Instructions"/>}
+          </div>
+          {props.plant.purchaseDate &&
+            <PlantSummaryField icon={<BiDollar/>} iconTooltipText="Purchase Date"
+                               fieldValue={getDateDisplayString(props.plant.purchaseDate)}
+                               fieldTooltipText={
+                                 <span>Purchased on:<br/> {getShortDate(props.plant.purchaseDate)}</span>
+                               }/>}
+          {props.plant.notes &&
+            <PlantSummaryField icon={<TbNotes/>} fieldValue={props.plant.notes}/>}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

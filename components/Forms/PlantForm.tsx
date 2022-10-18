@@ -76,7 +76,6 @@ export default function PlantForm(props: { onSubmitAction: () => void }) {
   const newPlantMutation = trpc.useMutation(["plant.createPlant"],
     {
       onSuccess: () => {
-        console.log("plant was added :)")
         props.onSubmitAction()
       },
     }

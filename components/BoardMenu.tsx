@@ -2,8 +2,8 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {RiMenuLine} from "react-icons/ri";
 import {IoAdd} from "react-icons/io5";
 import React from "react";
-import PlantForm from "./Forms/PlantForm";
 import {DialogContent, DialogTrigger, Dialog} from "./StandardDialog";
+import AddPlantForm from "./Forms/AddPlantForm";
 
 export default function BoardMenu(props: { refreshData: () => Promise<void> }) {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
@@ -34,7 +34,7 @@ export default function BoardMenu(props: { refreshData: () => Promise<void> }) {
             </DropdownMenu.Content>
           </DropdownMenu.Portal>
         </DropdownMenu.Root>
-        <DialogContent><PlantForm onSubmitAction={handleFormSubmit}/></DialogContent>
+        <DialogContent><AddPlantForm onSubmitAction={handleFormSubmit}/></DialogContent>
       </Dialog>
     </>
   );

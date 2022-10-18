@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import FormInput, {StandardFormInput} from "./FormInput";
 import StandardButton from "../StandardButton";
-import {trpc} from "../../src/utils/trpc";
-import {getTodayInHtmlInputFormat} from "../../src/utils/dateUtils";
 
 const inputs = [
   {
@@ -60,35 +58,21 @@ const inputs = [
   },
 ] as StandardFormInput[];
 
-export default function PlantForm(props: { onSubmitAction: () => void }) {
-  const [formValues, setFormValues] = useState({
-    nickName: "",
-    commonName: "",
-    purchaseDate: getTodayInHtmlInputFormat(),
-    waterInstructions: "",
-    notes: ""
-  });
+export default function PlantForm(props: { initialPlantValues: Record<string, unknown>, formTitle: string, submitButtonLabel: string, onSubmitHandler: (formValues: Record<string, unknown>) => void }) {
+  const [formValues, setFormValues] = useState(props.initialPlantValues);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({...formValues, [e.currentTarget.name]: e.currentTarget.value});
   }
 
-  const newPlantMutation = trpc.useMutation(["plant.createPlant"],
-    {
-      onSuccess: () => {
-        props.onSubmitAction()
-      },
-    }
-  );
-
   function handleFormSubmit() {
-    newPlantMutation.mutate({...formValues})
+    props.onSubmitHandler(formValues);
   }
 
   return (
     <div>
       <form className="flex flex-col p-5 text-green-900">
-        <div className="justify-center text-center text-xl">Add New Plant</div>
+        <div className="justify-center text-center text-xl">{props.formTitle}</div>
         {
           inputs.map((input) => {
             input = {
@@ -103,7 +87,7 @@ export default function PlantForm(props: { onSubmitAction: () => void }) {
           })
         }
         <div className="flex space-x-2 justify-center mt-4">
-          <StandardButton label={"Save Plant"} onClick={handleFormSubmit}/>
+          <StandardButton label={props.submitButtonLabel} onClick={handleFormSubmit}/>
         </div>
       </form>
     </div>

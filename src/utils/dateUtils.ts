@@ -37,6 +37,15 @@ export function getShortDate(date: Date) {
 }
 
 /**
+ * Returns the given date in correct format to use in HTML5 date picker input element.
+ * Ex: 2020-12-25 (yyyy-MM-dd)
+ * @param date local date object that will be converted to UTC time for DB consistency
+ */
+export function getDateInHtmlInputFormat(date: Date) {
+  return format(getUtcDate(date), 'yyyy-MM-dd');
+}
+
+/**
  * Returns the current date in correct format to use in HTML5 date picker input element.
  * Ex: 2020-12-25 (yyyy-MM-dd)
  */

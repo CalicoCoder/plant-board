@@ -1,7 +1,7 @@
-import { createRouter } from "./context";
-import { z } from "zod";
-import { Prisma } from '@prisma/client'
-import { prismaClient } from "../db/client";
+import {createRouter} from "./context";
+import {z} from "zod";
+import {Prisma} from '@prisma/client'
+import {prismaClient} from "../db/client";
 
 const mainPlantSummary = Prisma.validator<Prisma.PlantSelect>()({
   id: true,
@@ -25,6 +25,10 @@ export type MainPlantSummaryPayload = Prisma.PlantGetPayload<{
   select: typeof mainPlantSummary
 }>;
 
+function getPurchaseDate(purchaseDate: string | undefined) {
+  return purchaseDate ? new Date(purchaseDate) : null;
+}
+
 export const plantRouter = createRouter()
   .query("plantByNickname", {
     input: z
@@ -32,7 +36,7 @@ export const plantRouter = createRouter()
         nickname: z.string(),
       })
       .nullish(),
-    async resolve({ input }) {
+    async resolve({input}) {
       return {
         plant: await prismaClient.plant.findUnique({
           where: {
@@ -43,10 +47,10 @@ export const plantRouter = createRouter()
     },
   })
   .query("getPlantsSummary", {
-    async resolve({ ctx }) {
-     return await ctx.prismaClient.plant.findMany({
-       select: mainPlantSummary
-     });
+    async resolve({ctx}) {
+      return await ctx.prismaClient.plant.findMany({
+        select: mainPlantSummary
+      });
     },
   })
   .mutation("createPlant", {
@@ -58,17 +62,42 @@ export const plantRouter = createRouter()
         waterInstructions: z.string().optional(),
         notes: z.string().optional()
       }),
-    async resolve({input}){
-      let purchaseDate = null;
-      if(input.purchaseDate) {
-        purchaseDate = new Date(input.purchaseDate);
-      }
+    async resolve({input}) {
+      const purchaseDate = getPurchaseDate(input.purchaseDate);
       return {
         result: await prismaClient.plant.create({
-          data:{
+          data: {
             nickName: input.nickName,
             commonName: input.commonName,
             purchaseDate: purchaseDate,
+            waterInstructions: input.waterInstructions,
+            notes: input.notes
+          }
+        }),
+      }
+    }
+  })
+  .mutation("updatePlant", {
+    input: z
+      .object({
+        id: z.number(),
+        nickName: z.string().min(1),
+        commonName: z.string().optional(),
+        purchaseDate: z.string().optional(),
+        waterInstructions: z.string().optional(),
+        notes: z.string().optional()
+      }),
+    async resolve({input}) {
+      const purchaseDate = getPurchaseDate(input.purchaseDate);
+      return {
+        result: await prismaClient.plant.update({
+          where: {
+            id: input.id
+          },
+          data: {
+            nickName: input.nickName,
+            commonName: input.commonName,
+            purchaseDate,
             waterInstructions: input.waterInstructions,
             notes: input.notes
           }
@@ -82,10 +111,10 @@ export const plantRouter = createRouter()
         waterDate: z.date(),
         plantId: z.number()
       }),
-    async resolve({input}){
+    async resolve({input}) {
       return {
         result: await prismaClient.waterDate.create({
-          data:{
+          data: {
             date: input.waterDate,
             plantId: input.plantId
           }

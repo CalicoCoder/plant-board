@@ -8,8 +8,9 @@ import DatePopover from "./Popover";
 import {getDateDisplayString, getShortDate} from "../src/utils/dateUtils";
 import {InfoTooltip} from "./Tooltips";
 import {GiWateringCan} from "react-icons/gi";
-import { MdModeEdit } from "react-icons/md";
+import {MdModeEdit} from "react-icons/md";
 import {DialogContent, DialogTrigger, Dialog} from "./StandardDialog";
+import EditPlantForm from "./Forms/EditPlantForm";
 
 function PlantSummaryField(props: { fieldValue: string, fieldTooltipText?: ReactNode, icon?: ReactNode, iconTooltipText?: string, }) {
   return (
@@ -38,6 +39,13 @@ function PlantSummaryHeading(props: { plant: MainPlantSummaryPayload; }) {
 }
 
 export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload, refreshData: () => Promise<void> }) {
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  async function handleFormSubmit() {
+    setIsDialogOpen(false);
+    await props.refreshData();
+  }
+
   const waterDateMutation = trpc.useMutation(["plant.addWaterDate"],
     {
       onSuccess: () => {
@@ -60,11 +68,9 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
         className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
         <div>
           <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
-            <Dialog>
-              <DialogTrigger asChild={true}>
-                <button><MdModeEdit/></button>
-              </DialogTrigger>
-              <DialogContent><div>Another dialog</div></DialogContent>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger><MdModeEdit/></DialogTrigger>
+              <DialogContent><EditPlantForm plantData={props.plant} onSubmitAction={handleFormSubmit}/></DialogContent>
             </Dialog>
             <DatePopover icon={<GiWateringCan className="cursor-pointer ml-1" size="1.2em"/>}
                          popoverInstructions="Watered On:" tooltipText="Add Watering Date" saveDate={handleWaterEvent}/>

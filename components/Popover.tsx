@@ -1,12 +1,7 @@
-import * as PopoverPrimitive from '@radix-ui/react-popover';
-import {PopoverContent} from "@radix-ui/react-popover";
+import {Popover, PopoverTrigger, PopoverClose, PopoverContent, PopoverArrow} from "@radix-ui/react-popover";
 import React, {ReactNode, useState} from "react";
 import {getTodayInHtmlInputFormat} from "../src/utils/dateUtils";
-import {PopoverArrow} from "@radix-ui/react-popover";
 import {InfoTooltip} from "./Tooltips";
-
-export const Popover = PopoverPrimitive.Root;
-export const PopoverTrigger = PopoverPrimitive.Trigger;
 
 export default function DatePopover(props: {
   icon: ReactNode,
@@ -26,9 +21,11 @@ export default function DatePopover(props: {
         <div>{props.popoverInstructions}</div>
         <input className="rounded-lg cursor-pointer" type="date" value={date}
                onChange={(e) => setDate(e.target.value)}/>
-        <button className="rounded-lg cursor-pointer bg-light-brown hover:bg-medium-brown block p-1 "
-                onClick={() => props.saveDate(date)}>Add Date
-        </button>
+        <PopoverClose asChild={true}>
+          <button className="rounded-lg cursor-pointer bg-light-brown hover:bg-medium-brown block p-1 "
+                  onClick={() => props.saveDate(date)}>Add Date
+          </button>
+        </PopoverClose>
       </PopoverContent>
     </Popover>
   )

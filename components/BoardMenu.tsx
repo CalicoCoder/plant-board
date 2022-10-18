@@ -17,7 +17,7 @@ export default function BoardMenu(props: { refreshData: () => Promise<void> }) {
     <>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DropdownMenu.Root>
-          <DropdownMenu.Trigger className="fixed left-80 top-60">
+          <DropdownMenu.Trigger asChild={true} className="fixed left-80 top-60">
             <button className="bg-green-200 rounded-full p-2">
               <RiMenuLine/>
             </button>

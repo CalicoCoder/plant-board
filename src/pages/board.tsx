@@ -9,17 +9,31 @@ import BoardMenu from "../../components/BoardMenu"
 const Board: NextPage = () => {
   const plantsSummaryQuery = trpc.useQuery(["plant.getPlantsSummary"]);
   const {isLoading, isError, data, error} = plantsSummaryQuery;
-  const [plants, setPlants] = React.useState(data);
+  const [plants, setPlants] = React.useState([] as typeof data);
+
+  function plantWaterDateComparatorFunction(plantA: MainPlantSummaryPayload, plantB: MainPlantSummaryPayload) {
+    if (!plantB.waterDates[0]) return 1;
+    if (!plantA.waterDates[0]) return -1;
+
+    if (plantA.waterDates[0].date > plantB.waterDates[0].date) {
+      return -1;
+    } else if (plantA.waterDates[0].date < plantB.waterDates[0].date) {
+      return 1;
+    } else return 0;
+
+  }
+
+  function setAndSortPlantsByWaterDate(data: MainPlantSummaryPayload[]) {
+    setPlants(data.sort(plantWaterDateComparatorFunction));
+  }
 
   async function refetchPlantData() {
     const {data} = await plantsSummaryQuery.refetch();
-    if (data) {
-      setPlants(data);
-    }
+    data && setAndSortPlantsByWaterDate(data);
   }
 
   useEffect(() => {
-    setPlants(data);
+    data && setAndSortPlantsByWaterDate(data);
   }, [data]);
 
   let plantSummaryHtml;

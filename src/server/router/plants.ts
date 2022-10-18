@@ -49,7 +49,12 @@ export const plantRouter = createRouter()
   .query("getPlantsSummary", {
     async resolve({ctx}) {
       return await ctx.prismaClient.plant.findMany({
-        select: mainPlantSummary
+        select: mainPlantSummary,
+        orderBy: [
+          {
+            nickName: 'asc'
+          }
+        ]
       });
     },
   })

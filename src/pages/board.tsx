@@ -1,6 +1,6 @@
 import {trpc} from "../utils/trpc";
 import {NextPage} from "next";
-import Layout from "../../components/layout";
+import Layout from "../../components/Layout";
 import {MainPlantSummaryPayload} from "../server/router/plants";
 import PlantSummaryCard from "../../components/PlantSummaryCard";
 import React, {useEffect} from "react";

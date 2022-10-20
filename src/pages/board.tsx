@@ -53,9 +53,9 @@ const Board: NextPage = () => {
 
   return (
     <Layout>
-        <div className="container mx-auto flex flex-col items-center min-h-screen pt-8 p-4 relative">
+        <div className="container mx-auto flex flex-col items-center min-h-screen pt-8 p-4 relative text-slate-600">
           <BoardMenu refreshData={refetchPlantData}/>
-          <div className="pt-6 text-slate-700 grid gap-4 grid-cols-6">
+          <div className="pt-6 grid gap-4 grid-cols-6">
             {plantSummaryHtml}
           </div>
         </div>

@@ -71,7 +71,7 @@ export default function PlantForm(props: { initialPlantValues: Record<string, un
 
   return (
     <div>
-      <form className="flex flex-col p-5 text-green-900">
+      <form className="flex flex-col p-5 text-slate-600">
         <div className="justify-center text-center text-xl">{props.formTitle}</div>
         {
           inputs.map((input) => {

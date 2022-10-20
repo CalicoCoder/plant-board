@@ -14,7 +14,7 @@ export default function FormInput(props: StandardFormInput) {
 
   return (
     <div className="flex flex-col p-1.5">
-      <label>{label}</label>
+      <label>{label}:</label>
       <input className="rounded" {...props.inputAttributes} />
       <span className="text-red-400">{errorMessage}</span>
     </div>

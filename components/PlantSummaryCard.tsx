@@ -32,7 +32,7 @@ function PlantSummaryHeading(props: { plant: MainPlantSummaryPayload; }) {
   return props.plant.nickName ?
     (<>
       <div className="text-xl text-bold">{props.plant.nickName}</div>
-      <div className="text-xs text-slate-600">{props.plant.commonName}</div>
+      <div className="text-xs">{props.plant.commonName}</div>
     </>)
     :
     (<div className="text-xl text-bold">{props.plant.commonName}</div>)

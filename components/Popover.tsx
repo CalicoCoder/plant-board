@@ -13,8 +13,7 @@ export default function DatePopover(props: {
 
   return (
     <Popover>
-      <PopoverTrigger><InfoTooltip triggerContent={props.icon}
-                                   tooltipText={props.tooltipText}/></PopoverTrigger>
+      <PopoverTrigger><InfoTooltip tooltipText={props.tooltipText}>{props.icon}</InfoTooltip></PopoverTrigger>
       <PopoverContent align="start"
                       className="border-2 border-medium-brown bg-green-leaf rounded-lg p-2 animate-scaleIn origin-popover cursor-default drop-shadow-lg z-10 space-y-2">
         <PopoverArrow className="fill-medium-brown"/>

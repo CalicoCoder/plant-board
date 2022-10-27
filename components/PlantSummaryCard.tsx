@@ -16,12 +16,14 @@ function PlantSummaryField(props: { fieldValue: string, fieldTooltipText?: React
   return (
     <div className="p-2 text-center w-full relative">
       {props.icon && props.iconTooltipText &&
-        <InfoTooltip triggerContent={props.icon} tooltipText={props.iconTooltipText}
-                     cssClasses="absolute left-0 top-0 p-0.5"/>
+        <InfoTooltip tooltipText={props.iconTooltipText}
+                     cssClasses="absolute left-0 top-0 p-0.5">
+          {props.icon}
+        </InfoTooltip>
       }
       {
         props.fieldTooltipText ?
-          <InfoTooltip triggerContent={props.fieldValue} tooltipText={props.fieldTooltipText}/> :
+          <InfoTooltip tooltipText={props.fieldTooltipText}>{props.fieldValue}</InfoTooltip> :
           <span>{props.fieldValue}</span>
       }
     </div>
@@ -69,7 +71,9 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
         <div>
           <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger><MdModeEdit/></DialogTrigger>
+              <InfoTooltip tooltipText="Edit Plant">
+                <DialogTrigger><MdModeEdit/></DialogTrigger>
+              </InfoTooltip>
               <DialogContent><EditPlantForm plantData={props.plant} onSubmitAction={handleFormSubmit}/></DialogContent>
             </Dialog>
             <DatePopover icon={<GiWateringCan className="cursor-pointer ml-1" size="1.2em"/>}

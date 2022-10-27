@@ -11,11 +11,11 @@ function ToolTipContent(props: { tooltipText: ReactNode }) {
   );
 }
 
-export function InfoTooltip(props: { triggerContent: ReactNode, tooltipText: ReactNode, cssClasses?: string }) {
+export function InfoTooltip(props: { children: ReactNode, tooltipText: ReactNode, cssClasses?: string }) {
   return (
     <Tooltip.Root delayDuration={0}>
       <Tooltip.Trigger className={props.cssClasses + " cursor-help"}>
-        {props.triggerContent}
+        {props.children}
       </Tooltip.Trigger>
       <ToolTipContent tooltipText={props.tooltipText}/>
     </Tooltip.Root>

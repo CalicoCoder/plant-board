@@ -21,8 +21,6 @@ export default function AddPlantForm(props: { onSubmitAction: () => void }) {
 
   // TODO: Look into using a type from prisma here
   function handleFormSubmit(formValues:Record<string, unknown>) {
-    console.log("we in here");
-    console.dir(formValues);
     newPlantMutation.mutate({...formValues})
   }
 

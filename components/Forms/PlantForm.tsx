@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {ReactNode, useState} from "react";
 import FormInput, {StandardFormInput} from "./FormInput";
-import StandardButton from "../StandardButton";
+import {StandardButton} from "../StandardButtons";
 
 const inputs = [
   {
@@ -58,7 +58,7 @@ const inputs = [
   },
 ] as StandardFormInput[];
 
-export default function PlantForm(props: { initialPlantValues: Record<string, unknown>, formTitle: string, submitButtonLabel: string, onSubmitHandler: (formValues: Record<string, unknown>) => void }) {
+export default function PlantForm(props: { initialPlantValues: Record<string, unknown>, formTitle: string, submitButtonLabel: string, onSubmitHandler: (formValues: Record<string, unknown>) => void, additionalButtons?: ReactNode }) {
   const [formValues, setFormValues] = useState(props.initialPlantValues);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +88,7 @@ export default function PlantForm(props: { initialPlantValues: Record<string, un
         }
         <div className="flex space-x-2 justify-center mt-4">
           <StandardButton label={props.submitButtonLabel} onClick={handleFormSubmit}/>
+          {props.additionalButtons}
         </div>
       </form>
     </div>

@@ -110,6 +110,26 @@ export const plantRouter = createRouter()
       }
     }
   })
+  .mutation("deletePlant", {
+    input: z
+      .object({
+        id: z.number(),
+      }),
+    async resolve({input}) {
+      await prismaClient.waterDate.deleteMany({
+        where: {
+          plantId: input.id
+        }
+      });
+      return {
+        result: await prismaClient.plant.delete({
+          where: {
+            id: input.id
+          }
+        }),
+      }
+    }
+  })
   .mutation("addWaterDate", {
     input: z
       .object({

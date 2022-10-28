@@ -16,26 +16,25 @@ export default function EditPlantForm(props: { onSubmitAction: () => void, plant
   }
 
   const newPlantMutation = trpc.useMutation(["plant.updatePlant"],
-    {
-      onSuccess: () => {
-        props.onSubmitAction()
-      },
-    }
+    { onSuccess: props.onSubmitAction }
   );
-
-  function handlePlantDelete() {
-    console.log("deleting plant " + plantValues.id);
-  }
 
   // TODO: Look into using a type from prisma here
   function handleFormSubmit(formValues: Record<string, unknown>) {
     newPlantMutation.mutate({...formValues})
   }
 
+  const deletePlantMutation = trpc.useMutation(["plant.deletePlant"],
+    { onSuccess: props.onSubmitAction }
+  );
+
+  function handlePlantDelete() {
+    deletePlantMutation.mutate({id: plantValues.id});
+  }
+
   const extraFormButton = (<DangerButton label="Delete Plant" onClick={handlePlantDelete}/>);
 
   return (
     <PlantForm onSubmitHandler={handleFormSubmit} additionalButtons={extraFormButton} initialPlantValues={plantValues}
-               formTitle="Edit Plant" submitButtonLabel="Update Plant"/>
-  );
+               formTitle="Edit Plant" submitButtonLabel="Update Plant"/>);
 }

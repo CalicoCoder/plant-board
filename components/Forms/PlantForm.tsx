@@ -1,6 +1,8 @@
 import React, {ReactNode, useState} from "react";
 import FormInput, {StandardFormInput} from "./FormInput";
 import {StandardButton} from "../StandardButtons";
+import {Prisma} from "@prisma/client";
+import {PlantUpdateByIdInput} from "../../src/server/router/plants";
 
 const inputs = [
   {
@@ -58,7 +60,8 @@ const inputs = [
   },
 ] as StandardFormInput[];
 
-export default function PlantForm(props: { initialPlantValues: Record<string, unknown>, formTitle: string, submitButtonLabel: string, onSubmitHandler: (formValues: Record<string, unknown>) => void, additionalButtons?: ReactNode }) {
+// TODO: figure out why onSubmitHandler can not have this signature (onSubmitHandler: (formValues: (Prisma.PlantCreateInput | PlantUpdateByIdInput)) => void)
+export default function PlantForm(props: { initialPlantValues: (Prisma.PlantCreateInput | PlantUpdateByIdInput), formTitle: string, submitButtonLabel: string, onSubmitHandler: (formValues: any) => void, additionalButtons?: ReactNode }) {
   const [formValues, setFormValues] = useState(props.initialPlantValues);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

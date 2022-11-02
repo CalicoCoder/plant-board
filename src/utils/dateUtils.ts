@@ -52,3 +52,17 @@ export function getDateInHtmlInputFormat(date: Date) {
 export function getTodayInHtmlInputFormat() {
   return format(new Date(), 'yyyy-MM-dd');
 }
+
+/**
+ * Converts a value that may be a date or a string but needs to be in string form.
+ * This is mainly used to confirm values to proper API expected input
+ * @param potentialDate A value that is either a date or string representation of a date. If null or undefined will
+ * be returned as an empty string.
+ */
+export function convertDateToString(potentialDate: Date | string | undefined | null) {
+  potentialDate = potentialDate ?? '';
+  if (potentialDate instanceof Date) {
+    potentialDate = getDateInHtmlInputFormat(potentialDate);
+  }
+  return potentialDate;
+}

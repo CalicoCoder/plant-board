@@ -25,7 +25,18 @@ export type MainPlantSummaryPayload = Prisma.PlantGetPayload<{
   select: typeof mainPlantSummary
 }>;
 
-function getPurchaseDate(purchaseDate: string | undefined) {
+// TODO: Need to figure out how to get the prisma types and zod to play nicely for this case. Prisma types for
+//  update do not match up with the zod expectations for ID to not be optional.
+export type PlantUpdateByIdInput = {
+  id: number
+  nickName: string
+  commonName?: string | null
+  purchaseDate?: Date | string | null
+  waterInstructions?: string | null
+  notes?: string | null
+}
+
+function getPurchaseDate(purchaseDate: string | null | undefined) {
   return purchaseDate ? new Date(purchaseDate) : null;
 }
 
@@ -62,10 +73,10 @@ export const plantRouter = createRouter()
     input: z
       .object({
         nickName: z.string().min(1),
-        commonName: z.string().optional(),
-        purchaseDate: z.string().optional(),
-        waterInstructions: z.string().optional(),
-        notes: z.string().optional()
+        commonName: z.string().nullable().optional(),
+        purchaseDate: z.string().nullable().optional(),
+        waterInstructions: z.string().nullable().optional(),
+        notes: z.string().nullable().optional()
       }),
     async resolve({input}) {
       const purchaseDate = getPurchaseDate(input.purchaseDate);
@@ -87,10 +98,10 @@ export const plantRouter = createRouter()
       .object({
         id: z.number(),
         nickName: z.string().min(1),
-        commonName: z.string().optional(),
-        purchaseDate: z.string().optional(),
-        waterInstructions: z.string().optional(),
-        notes: z.string().optional()
+        commonName: z.string().nullable().optional(),
+        purchaseDate: z.string().nullable().optional(),
+        waterInstructions: z.string().nullable().optional(),
+        notes: z.string().nullable().optional()
       }),
     async resolve({input}) {
       const purchaseDate = getPurchaseDate(input.purchaseDate);

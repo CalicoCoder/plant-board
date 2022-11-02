@@ -1,6 +1,8 @@
 import PlantForm from "./PlantForm";
-import {getTodayInHtmlInputFormat} from "../../src/utils/dateUtils";
+import {convertDateToString, getTodayInHtmlInputFormat} from "../../src/utils/dateUtils";
 import {trpc} from "../../src/utils/trpc";
+import {Prisma} from "@prisma/client";
+
 
 export default function AddPlantForm(props: { onSubmitAction: () => void }) {
   const plantDefaults = {
@@ -19,9 +21,9 @@ export default function AddPlantForm(props: { onSubmitAction: () => void }) {
     }
   );
 
-  // TODO: Look into using a type from prisma here
-  function handleFormSubmit(formValues:Record<string, unknown>) {
-    newPlantMutation.mutate({...formValues})
+  function handleFormSubmit(formValues : Prisma.PlantCreateInput) {
+    const purchaseDate = convertDateToString(formValues.purchaseDate);
+    newPlantMutation.mutate({...formValues, purchaseDate})
   }
 
   return (

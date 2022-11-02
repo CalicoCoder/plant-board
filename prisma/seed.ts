@@ -16,7 +16,7 @@ const plantsData: Prisma.PlantCreateInput[] = [
     purchaseDate: new Date('2022-09-13'),
   },
   {
-    commonName: 'Golden Pothos',
+    nickName: 'Golden Pothos',
     waterDates: {
       create: {date: new Date('2022-8-28')}
     }
@@ -50,7 +50,7 @@ const plantsData: Prisma.PlantCreateInput[] = [
     }
   },
   {
-    commonName: 'Philodendren',
+    nickName: 'Philodendren',
     purchaseDate: new Date('2022-5-8'),
     waterDates: {
       create: {date: new Date('2022-9-15')}

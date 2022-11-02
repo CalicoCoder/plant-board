@@ -10,7 +10,7 @@ export default function EditPlantForm(props: { onSubmitAction: () => void, plant
   const plantValues = {
     id: props.plantData.id,
     nickName: props.plantData.nickName,
-    commonName: props.plantData.commonName,
+    commonName: props.plantData.commonName ? props.plantData.commonName : "",
     purchaseDate: props.plantData.purchaseDate ? getDateInHtmlInputFormat(props.plantData.purchaseDate) : "",
     waterInstructions: props.plantData.waterInstructions ? props.plantData.waterInstructions : "",
     notes: props.plantData.notes ? props.plantData.notes : ""

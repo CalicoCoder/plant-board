@@ -1,7 +1,7 @@
 import PlantForm from "./PlantForm";
 import {convertDateToString, getTodayInHtmlInputFormat} from "../../src/utils/dateUtils";
 import {trpc} from "../../src/utils/trpc";
-import {Prisma} from "@prisma/client";
+import {PlantCreateInput} from "../../src/server/router/plants";
 
 
 export default function AddPlantForm(props: { onSubmitAction: () => void }) {
@@ -21,7 +21,7 @@ export default function AddPlantForm(props: { onSubmitAction: () => void }) {
     }
   );
 
-  function handleFormSubmit(formValues : Prisma.PlantCreateInput) {
+  function handleFormSubmit(formValues : PlantCreateInput) {
     const purchaseDate = convertDateToString(formValues.purchaseDate);
     newPlantMutation.mutate({...formValues, purchaseDate})
   }

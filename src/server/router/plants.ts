@@ -30,10 +30,18 @@ export type MainPlantSummaryPayload = Prisma.PlantGetPayload<{
 export type PlantUpdateByIdInput = {
   id: number
   nickName: string
-  commonName?: string | null
-  purchaseDate?: Date | string | null
-  waterInstructions?: string | null
-  notes?: string | null
+  commonName?: string | undefined
+  purchaseDate?: string | undefined
+  waterInstructions?: string | undefined
+  notes?: string | undefined
+}
+
+export type PlantCreateInput = {
+  nickName: string
+  commonName?: string | undefined
+  purchaseDate?: string | undefined
+  waterInstructions?: string | undefined
+  notes?: string | undefined
 }
 
 function getPurchaseDate(purchaseDate: string | null | undefined) {

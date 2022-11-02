@@ -2,7 +2,7 @@ import React from "react";
 
 export interface StandardFormInput {
   id: number,
-  inputAttributes: React.InputHTMLAttributes<HTMLInputElement>,
+  inputHtmlAttributes: React.InputHTMLAttributes<HTMLInputElement>,
   errorMessage: string,
   label: string,
   value: string,
@@ -15,7 +15,7 @@ export default function FormInput(props: StandardFormInput) {
   return (
     <div className="flex flex-col p-1.5">
       <label>{label}:</label>
-      <input className="rounded" {...props.inputAttributes} />
+      <input className="rounded" {...props.inputHtmlAttributes} />
       <span className="text-red-400">{errorMessage}</span>
     </div>
   )

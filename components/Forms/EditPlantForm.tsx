@@ -1,7 +1,7 @@
 import PlantForm from "./PlantForm";
-import {getDateInHtmlInputFormat} from "../../src/utils/dateUtils";
+import {convertDateToString, getDateInHtmlInputFormat} from "../../src/utils/dateUtils";
 import {trpc} from "../../src/utils/trpc";
-import {MainPlantSummaryPayload} from "../../src/server/router/plants";
+import {MainPlantSummaryPayload, PlantUpdateByIdInput} from "../../src/server/router/plants";
 import {DangerButton} from "../StandardButtons";
 import React from "react";
 import {StandardAlertDialog} from "../StandardAlertDialog";
@@ -10,19 +10,19 @@ export default function EditPlantForm(props: { onSubmitAction: () => void, plant
   const plantValues = {
     id: props.plantData.id,
     nickName: props.plantData.nickName,
-    commonName: props.plantData.commonName,
+    commonName: props.plantData.commonName ? props.plantData.commonName : "",
     purchaseDate: props.plantData.purchaseDate ? getDateInHtmlInputFormat(props.plantData.purchaseDate) : "",
     waterInstructions: props.plantData.waterInstructions ? props.plantData.waterInstructions : "",
     notes: props.plantData.notes ? props.plantData.notes : ""
   }
 
-  const newPlantMutation = trpc.useMutation(["plant.updatePlant"],
+  const updatePlantMutation = trpc.useMutation(["plant.updatePlant"],
     {onSuccess: props.onSubmitAction}
   );
 
-  // TODO: Look into using a type from prisma here
-  function handleFormSubmit(formValues: Record<string, unknown>) {
-    newPlantMutation.mutate({...formValues})
+  function handleFormSubmit(formValues: PlantUpdateByIdInput) {
+    const purchaseDate = convertDateToString(formValues.purchaseDate);
+    updatePlantMutation.mutate({...formValues, purchaseDate})
   }
 
   const deletePlantMutation = trpc.useMutation(["plant.deletePlant"],

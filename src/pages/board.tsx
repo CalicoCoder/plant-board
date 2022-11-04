@@ -49,15 +49,19 @@ const Board: NextPage = () => {
       (plant: MainPlantSummaryPayload) => {
         return (<PlantSummaryCard key={plant.id} plant={plant} refreshData={refetchPlantData}/>);
       });
+    plantSummaryHtml = <div className="pt-6 grid gap-4 grid-cols-6">{plantSummaryHtml}</div>
+  } else if(plants && plants.length == 0){
+    plantSummaryHtml = (
+      <div>
+        No plants created yet, use the green hamburger menu to the left to create one? But really I should have a link here.
+      </div>)
   }
 
   return (
     <Layout>
         <div className="container mx-auto flex flex-col items-center min-h-screen pt-8 p-4 relative text-slate-600">
           <BoardMenu refreshData={refetchPlantData}/>
-          <div className="pt-6 grid gap-4 grid-cols-6">
             {plantSummaryHtml}
-          </div>
         </div>
     </Layout>
   );

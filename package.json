@@ -9,7 +9,7 @@
     "lint": "next lint",
     "seed": "npx ts-node prisma/seed.ts",
     "viewDb": "npx prisma studio",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate && prisma migrate deploy",
     "prismaUpdate": "npx prisma migrate dev"
   },
   "dependencies": {

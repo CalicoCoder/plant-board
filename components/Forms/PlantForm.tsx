@@ -1,11 +1,12 @@
 import React, {ReactNode, useState} from "react";
 import FormInput, {StandardFormInput} from "./FormInput";
 import {StandardButton} from "../StandardButtons";
+import {PlantCreateInput, PlantUpdateByIdInput} from "../../src/server/router/plants";
 
-const inputs = [
+const formInputs = [
   {
     id: 1,
-    inputAttributes: {
+    inputHtmlAttributes: {
       name: "nickName",
       pattern: "",
       placeholder: "Your name for the plant, e.g. Mr.Monstera",
@@ -17,7 +18,7 @@ const inputs = [
   },
   {
     id: 2,
-    inputAttributes: {
+    inputHtmlAttributes: {
       name: "commonName",
       placeholder: "Actual name of plant, e.g. Monstera deliciosa",
       required: false,
@@ -27,7 +28,7 @@ const inputs = [
   },
   {
     id: 3,
-    inputAttributes: {
+    inputHtmlAttributes: {
       name: "purchaseDate",
       placeholder: "",
       required: false,
@@ -37,7 +38,7 @@ const inputs = [
   },
   {
     id: 4,
-    inputAttributes: {
+    inputHtmlAttributes: {
       name: "waterInstructions",
       placeholder: "2 Cups from bottom",
       required: false,
@@ -48,7 +49,7 @@ const inputs = [
   {
 
     id: 5,
-    inputAttributes: {
+    inputHtmlAttributes: {
       name: "notes",
       placeholder: "Needs direct sunlight",
       required: false,
@@ -58,7 +59,8 @@ const inputs = [
   },
 ] as StandardFormInput[];
 
-export default function PlantForm(props: { initialPlantValues: Record<string, unknown>, formTitle: string, submitButtonLabel: string, onSubmitHandler: (formValues: Record<string, unknown>) => void, additionalButtons?: ReactNode }) {
+// TODO: figure out why onSubmitHandler can not have this signature (onSubmitHandler: (formValues: (PlantCreateInput | PlantUpdateByIdInput)) => void)
+export default function PlantForm(props: { initialPlantValues: (PlantCreateInput | PlantUpdateByIdInput), formTitle: string, submitButtonLabel: string, onSubmitHandler: (formValues: any) => void, additionalButtons?: ReactNode }) {
   const [formValues, setFormValues] = useState(props.initialPlantValues);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,16 +76,18 @@ export default function PlantForm(props: { initialPlantValues: Record<string, un
       <form className="flex flex-col p-5 text-slate-600">
         <div className="justify-center text-center text-xl">{props.formTitle}</div>
         {
-          inputs.map((input) => {
-            input = {
-              ...input,
-              inputAttributes: {
-                ...input.inputAttributes,
+          formInputs.map((formInput) => {
+            const formInputName = formInput.inputHtmlAttributes.name! as keyof typeof formValues;
+
+            formInput = {
+              ...formInput,
+              inputHtmlAttributes: {
+                ...formInput.inputHtmlAttributes,
                 onChange: onChangeHandler,
-                value: formValues[input.inputAttributes.name]
+                value: formValues[formInputName]
               }
             }
-            return <FormInput key={input.id} {...input}/>
+            return <FormInput key={formInput.id} {...formInput}/>
           })
         }
         <div className="flex space-x-2 justify-center mt-4">

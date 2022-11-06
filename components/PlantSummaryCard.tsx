@@ -14,7 +14,7 @@ import EditPlantForm from "./Forms/EditPlantForm";
 
 function PlantSummaryField(props: { fieldValue: string, fieldTooltipText?: ReactNode, icon?: ReactNode, iconTooltipText?: string, }) {
   return (
-    <div className="p-2 text-center w-full relative">
+    <div className="p-3 text-center w-full relative">
       {props.icon && props.iconTooltipText &&
         <InfoTooltip tooltipText={props.iconTooltipText}
                      cssClasses="absolute left-0 top-0 p-0.5">
@@ -79,7 +79,7 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
             <DatePopover icon={<GiWateringCan className="cursor-pointer ml-1" size="1.2em"/>}
                          popoverInstructions="Watered On:" tooltipText="Add Watering Date" saveDate={handleWaterEvent}/>
           </div>
-          <div className="flex flex-col justify-center w-full text-center p-2 pt-4">
+          <div className="flex flex-col justify-center w-full text-center p-3 pt-4">
             <PlantSummaryHeading {...props}/>
           </div>
         </div>

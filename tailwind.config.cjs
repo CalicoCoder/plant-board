@@ -23,6 +23,7 @@ module.exports = {
       },
       width: {
         'v50': '50vw',
+        'v90': '90vw',
       }
     },
   },

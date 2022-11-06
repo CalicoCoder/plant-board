@@ -14,19 +14,16 @@ export default function AddPlantForm(props: { onSubmitAction: () => void }) {
   }
 
   const newPlantMutation = trpc.useMutation(["plant.createPlant"],
-    {
-      onSuccess: () => {
-        props.onSubmitAction()
-      },
-    }
+    {onSuccess: props.onSubmitAction}
   );
 
-  function handleFormSubmit(formValues : PlantCreateInput) {
+  function handleFormSubmit(formValues: PlantCreateInput) {
     const purchaseDate = convertDateToString(formValues.purchaseDate);
     newPlantMutation.mutate({...formValues, purchaseDate})
   }
 
   return (
-    <PlantForm onSubmitHandler={handleFormSubmit} initialPlantValues={plantDefaults} formTitle="Add New Plant" submitButtonLabel="Save Plant" />
+    <PlantForm onSubmitHandler={handleFormSubmit} initialPlantValues={plantDefaults} formTitle="Add New Plant"
+               submitButtonLabel="Save Plant"/>
   );
 }

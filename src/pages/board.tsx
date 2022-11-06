@@ -49,7 +49,7 @@ const Board: NextPage = () => {
       (plant: MainPlantSummaryPayload) => {
         return (<PlantSummaryCard key={plant.id} plant={plant} refreshData={refetchPlantData}/>);
       });
-    plantSummaryHtml = <div className="pt-6 grid grid-cols-2 gap-4 md:grid-cols-6">{plantSummaryHtml}</div>
+    plantSummaryHtml = <div className="pt-2 lg:pt-6 grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">{plantSummaryHtml}</div>
   } else if(plants && plants.length == 0){
     plantSummaryHtml = (
       <div>
@@ -59,7 +59,7 @@ const Board: NextPage = () => {
 
   return (
     <Layout>
-        <div className="container mx-auto flex flex-col items-center min-h-screen pt-8 p-4 relative text-slate-600">
+        <div className="container mx-auto flex flex-col items-center min-h-screen pt-0 lg:pt-8 lg:p-4 relative text-slate-600">
           <BoardMenu refreshData={refetchPlantData}/>
             {plantSummaryHtml}
         </div>

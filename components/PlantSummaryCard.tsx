@@ -72,14 +72,14 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
           <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <InfoTooltip tooltipText="Edit Plant">
-                <DialogTrigger><MdModeEdit/></DialogTrigger>
+                <DialogTrigger><MdModeEdit className="w-[1.4em] h-[1.4em] lg:w-[1.2em] lg:h-[1.2em]"/></DialogTrigger>
               </InfoTooltip>
               <DialogContent><EditPlantForm plantData={props.plant} onSubmitAction={handleFormSubmit}/></DialogContent>
             </Dialog>
-            <DatePopover icon={<GiWateringCan className="cursor-pointer ml-1" size="1.2em"/>}
+            <DatePopover icon={<GiWateringCan className="cursor-pointer ml-1 w-[1.5em] h-[1.5em] lg:w-[1.2em] lg:h-[1.2em]"/>}
                          popoverInstructions="Watered On:" tooltipText="Add Watering Date" saveDate={handleWaterEvent}/>
           </div>
-          <div className="flex flex-col justify-center w-full text-center p-3 pt-4">
+          <div className="flex flex-col justify-center w-full text-center p-4 pt-7 lg:p-3 lg:pt-4">
             <PlantSummaryHeading {...props}/>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
               <PlantSummaryField fieldValue={props.plant.waterInstructions} fieldTooltipText="Watering Instructions"/>}
           </div>
           {props.plant.purchaseDate &&
-            <PlantSummaryField icon={<BiDollar/>} iconTooltipText="Purchase Date"
+            <PlantSummaryField icon={<BiDollar className="w-[1.2em] h-[1.2em] lg:w-[1em] lg:h-[1em]"/>} iconTooltipText="Purchase Date"
                                fieldValue={getDateDisplayString(props.plant.purchaseDate)}
                                fieldTooltipText={
                                  <span>Purchased on:<br/> {getShortDate(props.plant.purchaseDate)}</span>

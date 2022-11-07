@@ -11,9 +11,9 @@ export const StandardAlertDialog = (props: {
   return (<AlertDialog.Root>
     <AlertDialog.Trigger asChild={true}>{props.triggerNode}</AlertDialog.Trigger>
     <AlertDialog.Portal>
-      <AlertDialog.Overlay className="bg-gray-900 bg-opacity-60 inset-0 fixed"/>
+      <AlertDialog.Overlay className="z-50 bg-gray-900 bg-opacity-60 inset-0 fixed"/>
       <AlertDialog.Content
-        className="animate-scaleIn origin-[0%_0%] fixed top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 rounded-md bg-slate-200 w-v50 p-4 max-w-lg">
+        className="z-50 animate-scaleIn origin-[0%_0%] fixed top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 rounded-md bg-slate-200 w-80 p-4 lg:max-w-lg lg:w-v50">
         <AlertDialog.Title className="text-xl mb-2 font-medium">{props.title}</AlertDialog.Title>
         <AlertDialog.Description className="mb-4 font-light text-slate-600">
           {props.description}

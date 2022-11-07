@@ -17,8 +17,8 @@ export default function BoardMenu(props: { refreshData: () => Promise<void> }) {
     <>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DropdownMenu.Root>
-          <DropdownMenu.Trigger asChild={true} className="z-10 self-baseline lg:fixed lg:left-80 lg:top-60">
-            <button className="bg-green-200 rounded lg:rounded-full p-2">
+          <DropdownMenu.Trigger asChild={true} className="z-10 self-baseline lg:fixed lg:left-[5%] lg:top-50 lg:drop-shadow-lg hover:lg:drop-shadow-xl">
+            <button className="bg-green-200 focus-visible:outline-none active:bg-green-300 hover:bg-green-300 rounded lg:rounded-full p-2">
               <RiMenuLine/>
             </button>
           </DropdownMenu.Trigger>

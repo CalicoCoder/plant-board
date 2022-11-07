@@ -59,7 +59,7 @@ const Board: NextPage = () => {
 
   return (
     <Layout>
-        <div className="container mx-auto flex flex-col items-center min-h-screen pt-0 lg:pt-8 lg:p-4 relative text-slate-600">
+        <div className="container mx-auto flex flex-col items-center min-h-screen px-2.5 pt-0 lg:p-10 lg:px-[9%] relative text-slate-600">
           <BoardMenu refreshData={refetchPlantData}/>
             {plantSummaryHtml}
         </div>

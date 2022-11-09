@@ -9,8 +9,8 @@ import {getDateDisplayString, getShortDate} from "../src/utils/dateUtils";
 import {InfoTooltip} from "./Tooltips";
 import {GiWateringCan} from "react-icons/gi";
 import {MdModeEdit} from "react-icons/md";
-import {DialogContent, DialogTrigger, Dialog} from "./StandardDialog";
 import EditPlantForm from "./Forms/EditPlantForm";
+import {StandardDialog} from "./StandardDialog";
 
 function PlantSummaryField(props: { fieldValue: string, fieldTooltipText?: ReactNode, icon?: ReactNode, iconTooltipText?: string, }) {
   return (
@@ -66,16 +66,16 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
 
   return (
     <>
+      <StandardDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <EditPlantForm plantData={props.plant} onSubmitAction={handleFormSubmit}/>
+      </StandardDialog>
       <div
         className="bg-green-300 rounded-lg flex flex-col justify-center items-center shadow-lg divide-y divide-dashed divide-medium-brown relative">
         <div>
           <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <InfoTooltip tooltipText="Edit Plant">
-                <DialogTrigger><MdModeEdit className="w-[1.4em] h-[1.4em] lg:w-[1.2em] lg:h-[1.2em]"/></DialogTrigger>
+              <InfoTooltip cssClasses="cursor-pointer" tooltipText="Edit Plant">
+                <MdModeEdit onClick={() => {setIsDialogOpen(true)}} className="w-[1.4em] h-[1.4em] lg:w-[1.2em] lg:h-[1.2em] cursor-pointer"/>
               </InfoTooltip>
-              <DialogContent><EditPlantForm plantData={props.plant} onSubmitAction={handleFormSubmit}/></DialogContent>
-            </Dialog>
             <DatePopover icon={<GiWateringCan className="cursor-pointer ml-1 w-[1.5em] h-[1.5em] lg:w-[1.2em] lg:h-[1.2em]"/>}
                          popoverInstructions="Watered On:" tooltipText="Add Watering Date" saveDate={handleWaterEvent}/>
           </div>

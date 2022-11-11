@@ -1,4 +1,5 @@
 # Overview
+![o](https://i.imgur.com/4yhfuhu.png)
 Plant Board was created for personal use to help keep on top of home plant care in a simplified and 
 straightforward way. It is digital recreation of the white board that was my previous way of keeping track of plant 
 watering dates. All information on your plants is shown in one large summary view sorted by most recently watered date.
@@ -53,4 +54,7 @@ Main Components Include:
 
 ### Start Up
 Simply use npm to call the dev script to start the NextJs process: `npm run dev`
+
+Once up and running use the floating menu on the left to add your first plant.
+
 

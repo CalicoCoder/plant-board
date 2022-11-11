@@ -24,7 +24,7 @@ model WaterDate {
 model Plant {
   id                Int         @id @default(autoincrement())
   nickName          String      @unique
-  commonName        String?     @default("plant common name (ex: snake plant)")
+  commonName        String?
   purchaseDate      DateTime?   @db.Date
   waterDates        WaterDate[] @relation("WateredPlant")
   waterInstructions String?

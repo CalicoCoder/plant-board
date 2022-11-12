@@ -59,7 +59,7 @@ const Board: NextPage = () => {
         return (<PlantSummaryCard key={plant.id} plant={plant} refreshData={refetchPlantData}/>);
       });
     plantSummaryHtml =
-      <div className="pt-2 lg:pt-6 grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
+      <div className="pt-2 lg:pt-6 grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6 w-full">
         {plantSummaryHtml}
       </div>
   } else if (plants && plants.length == 0) {
@@ -79,7 +79,7 @@ const Board: NextPage = () => {
         {plantSummaryHtml}
       </div>
       <StandardDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <AddPlantForm onSubmitAction={handleFormSubmit}/>
+        <AddPlantForm onSubmitAction={handleFormSubmit} onCancelAction={() => setIsDialogOpen(false)} />
       </StandardDialog>
     </Layout>
   );

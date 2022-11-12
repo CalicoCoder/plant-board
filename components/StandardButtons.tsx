@@ -8,18 +8,18 @@ export function BaseButton(props: { label: string, onClick?: (...args: never[]) 
   </button>;
 }
 
-export function StandardButton(props: { label: string, onClick?: (...args: never[]) => void }) {
+export function StandardButton(props: { label: string, onClick?: (...args: never[]) => void, classNames?: string }) {
   return <BaseButton onClick={props.onClick} label={props.label}
-                     classNames="bg-green-500 hover:bg-green-600 focus:bg-green-600 active:bg-green-800"/>;
+                     classNames={`bg-green-500 hover:bg-green-600 focus:bg-green-600 active:bg-green-800 ${props.classNames}`}/>;
 }
 
-export function DangerButton(props: { label: string, onClick?: (...args: never[]) => void }) {
+export function DangerButton(props: { label: string, onClick?: (...args: never[]) => void, classNames?: string }) {
   return <BaseButton onClick={props.onClick} label={props.label}
-                     classNames="bg-red-500 hover:bg-red-600 focus:bg-red-600 active:bg-red-800"/>;
+                     classNames={`bg-red-500 hover:bg-red-600 focus:bg-red-600 active:bg-red-800 ${props.classNames}`}/>;
 }
 
-export function NeutralButton(props: { label: string, onClick?: (...args: never[]) => void }) {
+export function NeutralButton(props: { label: string, onClick?: (...args: never[]) => void, classNames?: string }) {
   return <BaseButton onClick={props.onClick} label={props.label}
-                     classNames="bg-slate-400 hover:bg-slate-500 focus:bg-slate-500 active:bg-slate-700"/>;
+                     classNames={`bg-slate-400 hover:bg-slate-500 focus:bg-slate-500 active:bg-slate-700 ${props.classNames}`}/>;
 }
 

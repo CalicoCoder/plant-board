@@ -36,7 +36,7 @@ export default function EditPlantForm(props: { onSubmitAction: () => void, plant
   const extraFormButton = (
     <StandardAlertDialog onDialogAction={handlePlantDelete} actionText="Yes, delete plant" title="Are you sure?"
                          description="Once a plant is deleted it cannot be recovered. Please confirm you wish to delete this plant and all water dates associated with it."
-                         triggerNode={<DangerButton label="Delete Plant"/>}
+                         triggerNode={<DangerButton classNames="ml-4" label="Delete Plant"/>}
     />);
 
   return (

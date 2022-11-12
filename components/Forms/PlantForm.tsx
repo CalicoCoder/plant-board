@@ -90,7 +90,7 @@ export default function PlantForm(props: { initialPlantValues: (PlantCreateInput
             return <FormInput key={formInput.id} {...formInput}/>
           })
         }
-        <div className="flex space-x-2 justify-center mt-4">
+        <div className="flex justify-center mt-4">
           <StandardButton label={props.submitButtonLabel} onClick={handleFormSubmit}/>
           {props.additionalButtons}
         </div>

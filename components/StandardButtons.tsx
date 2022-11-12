@@ -11,7 +11,7 @@ const BaseButton: FunctionComponent<ButtonProps> = (props: ButtonProps) => {
   return <button type={props.type} onClick={props.onClick}
                  className={`inline-block px-6 lg:px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase
                  rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none
-                 focus:ring-0 active:shadow-lg transition duration-150 ease-in-out ${props.classNames}`}>{props.label}
+                 focus:ring focus:ring-slate-400 active:shadow-lg transition duration-150 ease-in-out ${props.classNames}`}>{props.label}
   </button>;
 }
 

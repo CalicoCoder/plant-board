@@ -5,11 +5,20 @@ import {MainPlantSummaryPayload} from "../server/router/plants";
 import PlantSummaryCard from "../../components/PlantSummaryCard";
 import React, {useEffect} from "react";
 import BoardMenu from "../../components/BoardMenu"
+import AddPlantForm from "../../components/Forms/AddPlantForm";
+import {StandardDialog} from "../../components/StandardDialog";
+import {StandardButton} from "../../components/StandardButtons";
 
 const Board: NextPage = () => {
   const plantsSummaryQuery = trpc.useQuery(["plant.getPlantsSummary"]);
   const {isLoading, isError, data, error} = plantsSummaryQuery;
   const [plants, setPlants] = React.useState([] as typeof data);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  async function handleFormSubmit() {
+    setIsDialogOpen(false);
+    await refetchPlantData();
+  }
 
   function plantWaterDateComparatorFunction(plantA: MainPlantSummaryPayload, plantB: MainPlantSummaryPayload) {
     if (!plantB.waterDates[0]) return 1;
@@ -49,20 +58,29 @@ const Board: NextPage = () => {
       (plant: MainPlantSummaryPayload) => {
         return (<PlantSummaryCard key={plant.id} plant={plant} refreshData={refetchPlantData}/>);
       });
-    plantSummaryHtml = <div className="pt-2 lg:pt-6 grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">{plantSummaryHtml}</div>
-  } else if(plants && plants.length == 0){
+    plantSummaryHtml =
+      <div className="pt-2 lg:pt-6 grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
+        {plantSummaryHtml}
+      </div>
+  } else if (plants && plants.length == 0) {
     plantSummaryHtml = (
       <div>
-        No plants created yet, use the green hamburger menu to the left to create one? But really I should have a link here.
+        <div className="mb-5">No plants created yet.</div>
+        <StandardButton label="Create new Plant" onClick={() => setIsDialogOpen(true)}/>
       </div>)
   }
 
+
   return (
     <Layout>
-        <div className="container mx-auto flex flex-col items-center min-h-screen px-2.5 pt-0 lg:p-10 lg:px-[9%] relative text-slate-600">
-          <BoardMenu refreshData={refetchPlantData}/>
-            {plantSummaryHtml}
-        </div>
+      <div
+        className="container mx-auto flex flex-col items-center min-h-screen px-2.5 pt-0 lg:p-10 lg:px-[9%] relative text-slate-600">
+        <BoardMenu refreshData={refetchPlantData} openNewPlantDialog={() => setIsDialogOpen(true)}/>
+        {plantSummaryHtml}
+      </div>
+      <StandardDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AddPlantForm onSubmitAction={handleFormSubmit}/>
+      </StandardDialog>
     </Layout>
   );
 }

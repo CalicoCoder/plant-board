@@ -74,7 +74,7 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
         <div>
           <div className="absolute right-0 top-0 p-0.5 cursor-pointer">
               <InfoTooltip cssClasses="cursor-pointer" tooltipText="Edit Plant">
-                <MdModeEdit onClick={() => {setIsDialogOpen(true)}} className="w-[1.4em] h-[1.4em] lg:w-[1.2em] lg:h-[1.2em] cursor-pointer"/>
+                <MdModeEdit onClick={() => setIsDialogOpen(true)} className="w-[1.4em] h-[1.4em] lg:w-[1.2em] lg:h-[1.2em] cursor-pointer"/>
               </InfoTooltip>
             <DatePopover icon={<GiWateringCan className="cursor-pointer ml-1 w-[1.5em] h-[1.5em] lg:w-[1.2em] lg:h-[1.2em]"/>}
                          popoverInstructions="Watered On:" tooltipText="Add Watering Date" saveDate={handleWaterEvent}/>

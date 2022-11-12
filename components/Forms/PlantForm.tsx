@@ -1,6 +1,5 @@
-import React, {ReactNode, useState} from "react";
+import React, {FormEvent, ReactNode, useState} from "react";
 import FormInput, {StandardFormInput} from "./FormInput";
-import {StandardButton} from "../StandardButtons";
 import {PlantCreateInput, PlantUpdateByIdInput} from "../../src/server/router/plants";
 
 const formInputs = [
@@ -8,7 +7,6 @@ const formInputs = [
     id: 1,
     inputHtmlAttributes: {
       name: "nickName",
-      pattern: "",
       placeholder: "Your name for the plant, e.g. Mr.Monstera",
       required: true,
       type: "text",
@@ -60,20 +58,21 @@ const formInputs = [
 ] as StandardFormInput[];
 
 // TODO: figure out why onSubmitHandler can not have this signature (onSubmitHandler: (formValues: (PlantCreateInput | PlantUpdateByIdInput)) => void)
-export default function PlantForm(props: { initialPlantValues: (PlantCreateInput | PlantUpdateByIdInput), formTitle: string, submitButtonLabel: string, onSubmitHandler: (formValues: any) => void, additionalButtons?: ReactNode }) {
+export default function PlantForm(props: { initialPlantValues: (PlantCreateInput | PlantUpdateByIdInput), formTitle: string, onSubmitHandler: (formValues: any) => void, formButtons?: ReactNode }) {
   const [formValues, setFormValues] = useState(props.initialPlantValues);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({...formValues, [e.currentTarget.name]: e.currentTarget.value});
   }
 
-  function handleFormSubmit() {
+  function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     props.onSubmitHandler(formValues);
   }
 
   return (
     <div>
-      <form className="flex flex-col p-5 text-slate-600">
+      <form className="flex flex-col p-5 text-slate-600" onSubmit={handleFormSubmit}>
         <div className="justify-center text-center text-xl">{props.formTitle}</div>
         {
           formInputs.map((formInput) => {
@@ -91,8 +90,7 @@ export default function PlantForm(props: { initialPlantValues: (PlantCreateInput
           })
         }
         <div className="flex justify-center mt-4">
-          <StandardButton label={props.submitButtonLabel} onClick={handleFormSubmit}/>
-          {props.additionalButtons}
+          {props.formButtons}
         </div>
       </form>
     </div>

@@ -2,7 +2,7 @@ import PlantForm from "./PlantForm";
 import {convertDateToString, getDateInHtmlInputFormat} from "../../src/utils/dateUtils";
 import {trpc} from "../../src/utils/trpc";
 import {MainPlantSummaryPayload, PlantUpdateByIdInput} from "../../src/server/router/plants";
-import {DangerButton} from "../StandardButtons";
+import {DangerButton, StandardButton} from "../StandardButtons";
 import React from "react";
 import {StandardAlertDialog} from "../StandardAlertDialog";
 
@@ -33,13 +33,17 @@ export default function EditPlantForm(props: { onSubmitAction: () => void, plant
     deletePlantMutation.mutate({id: plantValues.id});
   }
 
-  const extraFormButton = (
-    <StandardAlertDialog onDialogAction={handlePlantDelete} actionText="Yes, delete plant" title="Are you sure?"
-                         description="Once a plant is deleted it cannot be recovered. Please confirm you wish to delete this plant and all water dates associated with it."
-                         triggerNode={<DangerButton classNames="ml-4" label="Delete Plant"/>}
-    />);
+  const formButtons = (
+    <>
+      <StandardButton label="Update Plant" type="submit"/>
+      <StandardAlertDialog onDialogAction={handlePlantDelete} actionText="Yes, delete plant" title="Are you sure?"
+                           description="Once a plant is deleted it cannot be recovered. Please confirm you wish to delete this plant and all water dates associated with it."
+                           triggerNode={<DangerButton classNames="ml-4" label="Delete Plant"/>}
+      />
+    </>
+  );
 
   return (
-    <PlantForm onSubmitHandler={handleFormSubmit} additionalButtons={extraFormButton} initialPlantValues={plantValues}
-               formTitle="Edit Plant" submitButtonLabel="Update Plant"/>);
+    <PlantForm initialPlantValues={plantValues} formTitle="Edit Plant"
+               onSubmitHandler={handleFormSubmit} formButtons={formButtons} />);
 }

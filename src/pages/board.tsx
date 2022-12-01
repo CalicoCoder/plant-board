@@ -3,59 +3,58 @@ import {NextPage} from "next";
 import Layout from "../../components/Layout";
 import {MainPlantSummaryPayload} from "../server/router/plants";
 import PlantSummaryCard from "../../components/PlantSummaryCard";
-import React, {useEffect} from "react";
+import React from "react";
 import BoardMenu from "../../components/BoardMenu"
 import AddPlantForm from "../../components/Forms/AddPlantForm";
 import {StandardDialog} from "../../components/StandardDialog";
 import {StandardButton} from "../../components/StandardButtons";
 
+function plantWaterDateComparatorFunction(plantA: MainPlantSummaryPayload, plantB: MainPlantSummaryPayload) {
+  if (!plantB.waterDates[0]) return 1;
+  if (!plantA.waterDates[0]) return -1;
+
+  if (plantA.waterDates[0].date > plantB.waterDates[0].date) {
+    return -1;
+  } else if (plantA.waterDates[0].date < plantB.waterDates[0].date) {
+    return 1;
+  } else return 0;
+
+}
+
 const Board: NextPage = () => {
   const plantsSummaryQuery = trpc.useQuery(["plant.getPlantsSummary"]);
-  const {isSuccess, isLoading, isError, data, error} = plantsSummaryQuery;
-  const [plants, setPlants] = React.useState([] as typeof data);
+  const {isSuccess, isLoading, isFetching, isError, data, error} = plantsSummaryQuery;
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  async function refetchPlantData() {
+    await plantsSummaryQuery.refetch();
+  }
 
   async function handleFormSubmit() {
     setIsDialogOpen(false);
     await refetchPlantData();
   }
 
-  function plantWaterDateComparatorFunction(plantA: MainPlantSummaryPayload, plantB: MainPlantSummaryPayload) {
-    if (!plantB.waterDates[0]) return 1;
-    if (!plantA.waterDates[0]) return -1;
-
-    if (plantA.waterDates[0].date > plantB.waterDates[0].date) {
-      return -1;
-    } else if (plantA.waterDates[0].date < plantB.waterDates[0].date) {
-      return 1;
-    } else return 0;
-
-  }
-
   function setAndSortPlantsByWaterDate(data: MainPlantSummaryPayload[]) {
-    setPlants(data.sort(plantWaterDateComparatorFunction));
+    return data.sort(plantWaterDateComparatorFunction);
   }
-
-  async function refetchPlantData() {
-    const {data} = await plantsSummaryQuery.refetch();
-    data && setAndSortPlantsByWaterDate(data);
-  }
-
-  useEffect(() => {
-    data && setAndSortPlantsByWaterDate(data);
-  }, [data]);
 
   let plantSummaryHtml;
+  if (isLoading || isFetching)
+    plantSummaryHtml = (<div>Loading...</div>)
 
-  if (isSuccess && plants) {
-    if (plants.length == 0) {
+  if (isError)
+    plantSummaryHtml = (<div>Error! <div>{error?.message}</div></div>)
+
+  if (isSuccess ) {
+    if (data.length == 0) {
       plantSummaryHtml = (
         <div>
           <div className="mb-5">No plants created yet.</div>
           <StandardButton label="Create new Plant" onClick={() => setIsDialogOpen(true)}/>
         </div>)
     } else {
-      plantSummaryHtml = plants.map(
+      plantSummaryHtml = setAndSortPlantsByWaterDate(data).map(
         (plant: MainPlantSummaryPayload) => {
           return (<PlantSummaryCard key={plant.id} plant={plant} refreshData={refetchPlantData}/>);
         });
@@ -65,12 +64,6 @@ const Board: NextPage = () => {
         </div>
     }
   }
-
-  if (isLoading)
-    plantSummaryHtml = (<div>Loading...</div>)
-
-  if (isError)
-    plantSummaryHtml = (<div>Error! <div>{error?.message}</div></div>)
 
   return (
     <Layout>

@@ -2,6 +2,7 @@ import {Popover, PopoverTrigger, PopoverClose, PopoverContent, PopoverArrow} fro
 import React, {ReactNode, useState} from "react";
 import {getTodayInHtmlInputFormat} from "../src/utils/dateUtils";
 import {InfoTooltip} from "./Tooltips";
+import {StandardButton} from "./StandardButtons";
 
 export default function DatePopover(props: {
   icon: ReactNode,
@@ -14,16 +15,14 @@ export default function DatePopover(props: {
   return (
     <Popover>
       <PopoverTrigger><InfoTooltip tooltipText={props.tooltipText}>{props.icon}</InfoTooltip></PopoverTrigger>
-      <PopoverContent align="start"
-                      className="border-2 border-medium-brown bg-green-leaf rounded-lg p-2 animate-scaleIn origin-popover cursor-default drop-shadow-lg z-10 space-y-2">
+      <PopoverContent align="start" onOpenAutoFocus={(event) => {event.preventDefault()}}
+                      className="border-2 border-medium-brown bg-brown-texture rounded-lg p-2 animate-scaleIn origin-popover cursor-default drop-shadow-lg z-10 flex flex-col">
         <PopoverArrow className="fill-medium-brown"/>
         <div>{props.popoverInstructions}</div>
-        <input className="rounded-lg cursor-pointer" type="date" value={date}
+        <input className="rounded-md cursor-pointer mt-1 mb-3" type="date" value={date}
                onChange={(e) => setDate(e.target.value)}/>
         <PopoverClose asChild={true}>
-          <button className="rounded-lg cursor-pointer bg-light-brown hover:bg-medium-brown block p-1 "
-                  onClick={() => props.saveDate(date)}>Add Date
-          </button>
+          <StandardButton classNames="block" onClick={() => props.saveDate(date)} label="Add Date"/>
         </PopoverClose>
       </PopoverContent>
     </Popover>

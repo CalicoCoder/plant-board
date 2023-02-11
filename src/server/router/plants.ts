@@ -1,46 +1,16 @@
 import {publicProcedure, router} from "./context";
 import {z} from "zod";
-import {Prisma} from '@prisma/client'
+import {MainPlantSummary, MainPlantSummaryPayload} from "../db/types";
 
-const mainPlantSummary = Prisma.validator<Prisma.PlantSelect>()({
-  id: true,
-  nickName: true,
-  commonName: true,
-  waterInstructions: true,
-  purchaseDate: true,
-  notes: true,
-  waterDates: {
-    select: {
-      date: true
-    },
-    take: 1,
-    orderBy: {
-      date: 'desc',
-    },
-  },
-});
+function plantWaterDateComparatorFunction(plantA: MainPlantSummaryPayload, plantB: MainPlantSummaryPayload) {
+  if (!plantB.waterDates[0]) return 1;
+  if (!plantA.waterDates[0]) return -1;
 
-export type MainPlantSummaryPayload = Prisma.PlantGetPayload<{
-  select: typeof mainPlantSummary
-}>;
-
-// TODO: Need to figure out how to get the prisma types and zod to play nicely for this case. Prisma types for
-//  update do not match up with the zod expectations for ID to not be optional.
-export type PlantUpdateByIdInput = {
-  id: number
-  nickName: string
-  commonName?: string | undefined
-  purchaseDate?: string | undefined
-  waterInstructions?: string | undefined
-  notes?: string | undefined
-}
-
-export type PlantCreateInput = {
-  nickName: string
-  commonName?: string | undefined
-  purchaseDate?: string | undefined
-  waterInstructions?: string | undefined
-  notes?: string | undefined
+  if (plantA.waterDates[0].date > plantB.waterDates[0].date) {
+    return -1;
+  } else if (plantA.waterDates[0].date < plantB.waterDates[0].date) {
+    return 1;
+  } else return 0;
 }
 
 function getPurchaseDate(purchaseDate: string | null | undefined) {
@@ -110,14 +80,18 @@ export const plantRouter = router({
       }
     }),
   getPlantsSummary: publicProcedure.query(async ({ctx}) => {
-    return await ctx.prismaClient.plant.findMany({
-      select: mainPlantSummary,
+    let data =  await ctx.prismaClient.plant.findMany({
+      select: MainPlantSummary,
       orderBy: [
         {
           nickName: 'asc'
         }
       ]
     });
+
+    data = data.sort(plantWaterDateComparatorFunction)
+
+    return data;
   }),
   update: publicProcedure
     .input(

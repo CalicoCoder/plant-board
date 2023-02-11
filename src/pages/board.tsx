@@ -1,25 +1,13 @@
 import {trpc} from "../utils/trpc";
 import {NextPage} from "next";
 import Layout from "../../components/Layout";
-import {MainPlantSummaryPayload} from "../server/router/plants";
 import PlantSummaryCard from "../../components/PlantSummaryCard";
 import React from "react";
 import BoardMenu from "../../components/BoardMenu"
 import AddPlantForm from "../../components/Forms/AddPlantForm";
 import {StandardDialog} from "../../components/StandardDialog";
 import {StandardButton} from "../../components/StandardButtons";
-
-function plantWaterDateComparatorFunction(plantA: MainPlantSummaryPayload, plantB: MainPlantSummaryPayload) {
-  if (!plantB.waterDates[0]) return 1;
-  if (!plantA.waterDates[0]) return -1;
-
-  if (plantA.waterDates[0].date > plantB.waterDates[0].date) {
-    return -1;
-  } else if (plantA.waterDates[0].date < plantB.waterDates[0].date) {
-    return 1;
-  } else return 0;
-
-}
+import {MainPlantSummaryPayload} from "../server/db/types";
 
 const Board: NextPage = () => {
   const plantsSummaryQuery = trpc.plant.getPlantsSummary.useQuery();
@@ -33,10 +21,6 @@ const Board: NextPage = () => {
   async function handleFormSubmit() {
     setIsDialogOpen(false);
     await refetchPlantData();
-  }
-
-  function setAndSortPlantsByWaterDate(data: MainPlantSummaryPayload[]) {
-    return data.sort(plantWaterDateComparatorFunction);
   }
 
   let plantSummaryHtml;
@@ -54,7 +38,7 @@ const Board: NextPage = () => {
           <StandardButton label="Create new Plant" onClick={() => setIsDialogOpen(true)}/>
         </div>)
     } else {
-      plantSummaryHtml = setAndSortPlantsByWaterDate(data).map(
+      plantSummaryHtml = (data).map(
         (plant: MainPlantSummaryPayload) => {
           return (<PlantSummaryCard key={plant.id} plant={plant} refreshData={refetchPlantData}/>);
         });

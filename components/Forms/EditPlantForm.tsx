@@ -1,7 +1,7 @@
 import PlantForm from "./PlantForm";
 import {convertDateToString, getDateInHtmlInputFormat} from "../../src/utils/dateUtils";
 import {trpc} from "../../src/utils/trpc";
-import {MainPlantSummaryPayload, PlantUpdateByIdInput} from "../../src/server/router/plants";
+import {MainPlantSummaryPayload, PlantUpdateByIdInput} from "../../src/server/db/types";
 import {DangerButton, StandardButton} from "../StandardButtons";
 import React from "react";
 import {StandardAlertDialog} from "../StandardAlertDialog";

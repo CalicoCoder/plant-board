@@ -1,5 +1,5 @@
 import React, {ReactNode} from "react";
-import {MainPlantSummaryPayload} from "../src/server/router/plants";
+import {MainPlantSummaryPayload} from "../src/server/db/types";
 import {IoWaterOutline} from "react-icons/io5";
 import {TbNotes} from "react-icons/tb"
 import {BiDollar} from "react-icons/bi";

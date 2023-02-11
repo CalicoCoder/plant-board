@@ -1,12 +1,10 @@
 // src/server/router/index.ts
-import {createRouter} from "./context";
-import superjson from "superjson";
-
+import {router} from "./context";
 import {plantRouter} from "./plants";
 
-export const appRouter = createRouter()
-  .transformer(superjson)
-  .merge("plant.", plantRouter);
+export const appRouter = router({
+  plant: plantRouter
+})
 
 // export type definition of API
 export type AppRouter = typeof appRouter;

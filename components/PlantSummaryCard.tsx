@@ -48,8 +48,7 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
     await props.refreshData();
   }
 
-  const waterDateMutation = trpc.useMutation(["plant.addWaterDate"],
-    {
+  const waterDateMutation = trpc.plant.addWaterDate.useMutation({
       onSuccess: () => {
         props.refreshData()
       },

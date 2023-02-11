@@ -16,8 +16,7 @@ export default function EditPlantForm(props: { onSubmitAction: () => void, plant
     notes: props.plantData.notes ? props.plantData.notes : ""
   }
 
-  const updatePlantMutation = trpc.useMutation(["plant.updatePlant"],
-    {onSuccess: props.onSubmitAction}
+  const updatePlantMutation = trpc.plant.update.useMutation({onSuccess: props.onSubmitAction}
   );
 
   function handleFormSubmit(formValues: PlantUpdateByIdInput) {
@@ -25,8 +24,7 @@ export default function EditPlantForm(props: { onSubmitAction: () => void, plant
     updatePlantMutation.mutate({...formValues, purchaseDate})
   }
 
-  const deletePlantMutation = trpc.useMutation(["plant.deletePlant"],
-    {onSuccess: props.onSubmitAction}
+  const deletePlantMutation = trpc.plant.delete.useMutation({onSuccess: props.onSubmitAction}
   );
 
   function handlePlantDelete() {

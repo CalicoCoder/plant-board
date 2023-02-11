@@ -1,7 +1,7 @@
 import PlantForm from "./PlantForm";
 import {convertDateToString, getTodayInHtmlInputFormat} from "../../src/utils/dateUtils";
 import {trpc} from "../../src/utils/trpc";
-import {PlantCreateInput} from "../../src/server/router/plants";
+import {PlantCreateInput} from "../../src/server/db/types";
 import {NeutralButton, StandardButton} from "../StandardButtons";
 import React from "react";
 

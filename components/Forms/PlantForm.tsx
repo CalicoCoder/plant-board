@@ -1,6 +1,6 @@
 import React, {FormEvent, ReactNode, useState} from "react";
 import FormInput, {StandardFormInput} from "./FormInput";
-import {PlantCreateInput, PlantUpdateByIdInput} from "../../src/server/router/plants";
+import {PlantCreateInput, PlantUpdateByIdInput} from "../../src/server/db/types";
 
 const formInputs = [
   {

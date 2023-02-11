@@ -1,7 +1,6 @@
-import {createRouter} from "./context";
+import {publicProcedure, router} from "./context";
 import {z} from "zod";
 import {Prisma} from '@prisma/client'
-import {prismaClient} from "../db/client";
 
 const mainPlantSummary = Prisma.validator<Prisma.PlantSelect>()({
   id: true,
@@ -48,48 +47,38 @@ function getPurchaseDate(purchaseDate: string | null | undefined) {
   return purchaseDate ? new Date(purchaseDate) : null;
 }
 
-export const plantRouter = createRouter()
-  .query("plantByNickname", {
-    input: z
-      .object({
-        nickname: z.string(),
-      })
-      .nullish(),
-    async resolve({input}) {
+export const plantRouter = router({
+  addWaterDate: publicProcedure
+    .input(
+      z.object({
+        waterDate: z.date(),
+        plantId: z.number()
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
       return {
-        plant: await prismaClient.plant.findUnique({
-          where: {
-            nickName: input!.nickname
+        result: await ctx.prismaClient.waterDate.create({
+          data: {
+            date: input.waterDate,
+            plantId: input.plantId
           }
         }),
-      };
-    },
-  })
-  .query("getPlantsSummary", {
-    async resolve({ctx}) {
-      return await ctx.prismaClient.plant.findMany({
-        select: mainPlantSummary,
-        orderBy: [
-          {
-            nickName: 'asc'
-          }
-        ]
-      });
-    },
-  })
-  .mutation("createPlant", {
-    input: z
-      .object({
+      }
+    }),
+  create: publicProcedure
+    .input(
+      z.object({
         nickName: z.string().min(1),
         commonName: z.string().nullable().optional(),
         purchaseDate: z.string().nullable().optional(),
         waterInstructions: z.string().nullable().optional(),
         notes: z.string().nullable().optional()
       }),
-    async resolve({input}) {
+    )
+    .mutation(async ({input, ctx}) => {
       const purchaseDate = getPurchaseDate(input.purchaseDate);
       return {
-        result: await prismaClient.plant.create({
+        result: await ctx.prismaClient.plant.create({
           data: {
             nickName: input.nickName,
             commonName: input.commonName,
@@ -99,11 +88,40 @@ export const plantRouter = createRouter()
           }
         }),
       }
-    }
-  })
-  .mutation("updatePlant", {
-    input: z
-      .object({
+    }),
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.number()
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      await ctx.prismaClient.waterDate.deleteMany({
+        where: {
+          plantId: input.id
+        }
+      });
+      return {
+        result: await ctx.prismaClient.plant.delete({
+          where: {
+            id: input.id
+          }
+        }),
+      }
+    }),
+  getPlantsSummary: publicProcedure.query(async ({ctx}) => {
+    return await ctx.prismaClient.plant.findMany({
+      select: mainPlantSummary,
+      orderBy: [
+        {
+          nickName: 'asc'
+        }
+      ]
+    });
+  }),
+  update: publicProcedure
+    .input(
+      z.object({
         id: z.number(),
         nickName: z.string().min(1),
         commonName: z.string().nullable().optional(),
@@ -111,10 +129,11 @@ export const plantRouter = createRouter()
         waterInstructions: z.string().nullable().optional(),
         notes: z.string().nullable().optional()
       }),
-    async resolve({input}) {
+    )
+    .mutation(async ({input, ctx}) => {
       const purchaseDate = getPurchaseDate(input.purchaseDate);
       return {
-        result: await prismaClient.plant.update({
+        result: await ctx.prismaClient.plant.update({
           where: {
             id: input.id
           },
@@ -127,42 +146,5 @@ export const plantRouter = createRouter()
           }
         }),
       }
-    }
-  })
-  .mutation("deletePlant", {
-    input: z
-      .object({
-        id: z.number(),
-      }),
-    async resolve({input}) {
-      await prismaClient.waterDate.deleteMany({
-        where: {
-          plantId: input.id
-        }
-      });
-      return {
-        result: await prismaClient.plant.delete({
-          where: {
-            id: input.id
-          }
-        }),
-      }
-    }
-  })
-  .mutation("addWaterDate", {
-    input: z
-      .object({
-        waterDate: z.date(),
-        plantId: z.number()
-      }),
-    async resolve({input}) {
-      return {
-        result: await prismaClient.waterDate.create({
-          data: {
-            date: input.waterDate,
-            plantId: input.plantId
-          }
-        }),
-      }
-    }
-  });
+    }),
+});

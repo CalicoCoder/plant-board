@@ -22,7 +22,7 @@ function plantWaterDateComparatorFunction(plantA: MainPlantSummaryPayload, plant
 }
 
 const Board: NextPage = () => {
-  const plantsSummaryQuery = trpc.useQuery(["plant.getPlantsSummary"]);
+  const plantsSummaryQuery = trpc.plant.getPlantsSummary.useQuery();
   const {isSuccess, isLoading, isFetching, isError, data, error} = plantsSummaryQuery;
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 

@@ -23,6 +23,9 @@ export default function EditPlantForm(props: { onSubmitAction: () => void, plant
   function handleFormSubmit(formValues: PlantUpdateByIdInput) {
     const purchaseDate = convertDateToString(formValues.purchaseDate);
     // TODO:RE Need to figure out how to stop the waterFrequency from coming back as text from formValues
+    // For now disabling the type checking because it is incorrect
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const waterFrequency = parseInt(formValues.waterFrequency) ?? 0;
     updatePlantMutation.mutate({...formValues, purchaseDate, waterFrequency})
   }

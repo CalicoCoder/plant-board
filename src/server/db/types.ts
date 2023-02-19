@@ -7,6 +7,7 @@ export const MainPlantSummary = Prisma.validator<Prisma.PlantSelect>()({
   waterInstructions: true,
   purchaseDate: true,
   notes: true,
+  waterFrequency: true,
   waterDates: {
     select: {
       date: true
@@ -30,6 +31,7 @@ export type PlantUpdateByIdInput = {
   commonName?: string | undefined
   purchaseDate?: string | undefined
   waterInstructions?: string | undefined
+  waterFrequency?: number | undefined
   notes?: string | undefined
 }
 
@@ -38,5 +40,6 @@ export type PlantCreateInput = {
   commonName?: string | undefined
   purchaseDate?: string | undefined
   waterInstructions?: string | undefined
+  waterFrequency?: number | undefined
   notes?: string | undefined
 }

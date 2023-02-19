@@ -7,25 +7,25 @@ const plantsData: Prisma.PlantCreateInput[] = [
     nickName: 'The ZZ',
     commonName: 'ZZ Plant',
     waterDates: {
-      create: [{date: new Date('2022-9-1')}, {date: new Date('2022-8-3')}]
+      create: [{date: new Date('2022-10-19')}, {date: new Date('2022-8-3')}]
     }
   },
   {
     nickName: 'Queen Pothos',
     commonName: 'Marble Queen Pothos',
-    purchaseDate: new Date('2022-09-13'),
+    purchaseDate: new Date('2022-10-30'),
   },
   {
     nickName: 'Golden Pothos',
     waterDates: {
-      create: {date: new Date('2022-8-28')}
+      create: {date: new Date('2022-10-30')}
     }
   },
   {
     nickName: 'Pothos #2',
     commonName: 'Pothos',
     waterDates: {
-      create: {date: new Date('2022-8-28')}
+      create: {date: new Date('2022-10-30')}
     }
   },
   {
@@ -39,35 +39,35 @@ const plantsData: Prisma.PlantCreateInput[] = [
     nickName: 'Monstera #1',
     commonName: 'Monstera deliciosa',
     waterDates: {
-      create: {date: new Date('2022-9-12')}
+      create: {date: new Date('2022-11-01')}
     }
   },
   {
     nickName: 'Monstera #2',
     commonName: 'Monstera deliciosa',
     waterDates: {
-      create: {date: new Date('2022-8-28')}
+      create: {date: new Date('2022-10-30')}
     }
   },
   {
     nickName: 'Philodendren',
     purchaseDate: new Date('2022-5-8'),
     waterDates: {
-      create: {date: new Date('2022-9-15')}
+      create: {date: new Date('2022-11-05')}
     }
   },
   {
     nickName: 'Monty',
     commonName: 'Monstera deliciosa',
     waterDates: {
-      create: {date: new Date('2022-8-28')}
+      create: {date: new Date('2022-9-21')}
     }
   },
   {
     nickName: 'M/L Fiddle',
     commonName: 'Fiddle Leaf Fig',
     waterDates: {
-      create: {date: new Date('2022-9-13')}
+      create: {date: new Date('2022-11-01')}
     },
     waterInstructions: '1 cup per foot'
   },
@@ -76,7 +76,7 @@ const plantsData: Prisma.PlantCreateInput[] = [
     commonName: 'Fiddle Leaf Fig',
     purchaseDate: new Date('2021-5-9'),
     waterDates: {
-      create: {date: new Date('2022-9-13')}
+      create: {date: new Date('2022-11-01')}
     },
     waterInstructions: '1/2 cup from bottom'
   },
@@ -84,14 +84,14 @@ const plantsData: Prisma.PlantCreateInput[] = [
     nickName: 'BB Cacti',
     commonName: 'Cactus',
     waterDates: {
-      create: {date: new Date('2022-7-14')}
+      create: {date: new Date('2022-10-30')}
     }
   },
   {
     nickName: 'Cacti',
     commonName: 'Cactus',
     waterDates: {
-      create: {date: new Date('2022-8-4')}
+      create: {date: new Date('2022-10-30')}
     }
   },
   {

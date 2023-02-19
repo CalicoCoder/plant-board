@@ -41,6 +41,7 @@ export const plantRouter = router({
         nickName: z.string().min(1),
         commonName: z.string().nullable().optional(),
         purchaseDate: z.string().nullable().optional(),
+        waterFrequency: z.number().nullable().optional(),
         waterInstructions: z.string().nullable().optional(),
         notes: z.string().nullable().optional()
       }),
@@ -53,6 +54,7 @@ export const plantRouter = router({
             nickName: input.nickName,
             commonName: input.commonName,
             purchaseDate: purchaseDate,
+            waterFrequency: input.waterFrequency,
             waterInstructions: input.waterInstructions,
             notes: input.notes
           }
@@ -101,6 +103,7 @@ export const plantRouter = router({
         commonName: z.string().nullable().optional(),
         purchaseDate: z.string().nullable().optional(),
         waterInstructions: z.string().nullable().optional(),
+        waterFrequency: z.number().nullable().optional(),
         notes: z.string().nullable().optional()
       }),
     )
@@ -116,6 +119,7 @@ export const plantRouter = router({
             commonName: input.commonName,
             purchaseDate,
             waterInstructions: input.waterInstructions,
+            waterFrequency: input.waterFrequency,
             notes: input.notes
           }
         }),

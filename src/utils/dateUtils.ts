@@ -1,4 +1,4 @@
-import {differenceInDays, format, formatDistanceToNowStrict} from "date-fns";
+import {differenceInDays, format, formatDistanceToNowStrict, add} from "date-fns";
 
 /**
  * Creates a date in client's timezone with the proper date from UTC date given by database.
@@ -65,4 +65,13 @@ export function convertDateToString(potentialDate: Date | string | undefined | n
     potentialDate = getDateInHtmlInputFormat(potentialDate);
   }
   return potentialDate;
+}
+
+/**
+ * Adds a set number of days to a given date and returns the resulting new date.
+ * @param date Date to add days to
+ * @param days How many days to add
+ */
+export function addDaysToDate(date: Date, days: number){
+  return add(date, {days})
 }

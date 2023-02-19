@@ -45,8 +45,19 @@ const formInputs = [
     label: "Watering Instructions",
   },
   {
-
     id: 5,
+    inputHtmlAttributes: {
+      name: "waterFrequency",
+      placeholder: "2",
+      required: false,
+      type: "number",
+      min: 0
+    },
+    label: "Watering Frequency (in days)",
+  },
+  {
+
+    id: 6,
     inputHtmlAttributes: {
       name: "notes",
       placeholder: "Needs direct sunlight",
@@ -77,7 +88,6 @@ export default function PlantForm(props: { initialPlantValues: (PlantCreateInput
         {
           formInputs.map((formInput) => {
             const formInputName = formInput.inputHtmlAttributes.name! as keyof typeof formValues;
-
             formInput = {
               ...formInput,
               inputHtmlAttributes: {

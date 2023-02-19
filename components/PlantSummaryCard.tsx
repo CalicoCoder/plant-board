@@ -5,12 +5,13 @@ import {TbNotes} from "react-icons/tb"
 import {BiDollar} from "react-icons/bi";
 import {trpc} from "../src/utils/trpc";
 import DatePopover from "./Popover";
-import {getDateDisplayString, getShortDate} from "../src/utils/dateUtils";
+import {addDaysToDate, getDateDisplayString, getShortDate} from "../src/utils/dateUtils";
 import {InfoTooltip} from "./Tooltips";
 import {GiWateringCan} from "react-icons/gi";
 import {MdModeEdit} from "react-icons/md";
 import EditPlantForm from "./Forms/EditPlantForm";
 import {StandardDialog} from "./StandardDialog";
+import {differenceInDays, isFuture} from "date-fns";
 
 function PlantSummaryField(props: { fieldValue: string, fieldTooltipText?: ReactNode, icon?: ReactNode, iconTooltipText?: string, }) {
   return (
@@ -63,6 +64,17 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
     return props.plant.waterDates[0] ? getDateDisplayString(props.plant.waterDates[0].date) : "Not watered yet :(";
   }
 
+  function getWaterFrequencyDisplay(lastWaterDate: Date, waterFrequencyDays: number) {
+    const nextWateringDay = addDaysToDate(lastWaterDate, waterFrequencyDays);
+
+    if(isFuture(nextWateringDay)){
+      return "Needs water " + getDateDisplayString(nextWateringDay);
+    }
+
+    const overdueWateringDays = differenceInDays(Date.now(), nextWateringDay);
+    return `Overdue watering by ${overdueWateringDays} ${overdueWateringDays == 1 ?  "day" : "days"}`;
+  }
+
   return (
     <>
       <StandardDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -90,8 +102,12 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
                                fieldTooltipText={props.plant.waterDates[0] &&
                                  <span>Watered on:<br/> {getShortDate(props.plant.waterDates[0].date)}</span>
                                }/>
+
             {props.plant.waterInstructions &&
               <PlantSummaryField fieldValue={props.plant.waterInstructions} fieldTooltipText="Watering Instructions"/>}
+
+            {props.plant.waterFrequency != null && props.plant.waterFrequency.toString() != "0" && props.plant.waterDates.length > 0 && props.plant.waterDates[0] &&
+              <PlantSummaryField fieldValue={getWaterFrequencyDisplay(props.plant.waterDates[0].date, props.plant.waterFrequency)} fieldTooltipText="Next Water Date"/>}
           </div>
           {props.plant.purchaseDate &&
             <PlantSummaryField icon={<BiDollar className="w-[1.2em] h-[1.2em] lg:w-[1em] lg:h-[1em]"/>} iconTooltipText="Purchase Date"

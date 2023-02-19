@@ -26,6 +26,7 @@ model Plant {
   nickName          String      @unique
   commonName        String?
   purchaseDate      DateTime?   @db.Date
+  waterFrequency    Int?
   waterDates        WaterDate[] @relation("WateredPlant")
   waterInstructions String?
   notes             String?

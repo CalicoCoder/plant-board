@@ -5,13 +5,13 @@ import {PlantCreateInput} from "../../src/server/db/types";
 import {NeutralButton, StandardButton} from "../StandardButtons";
 import React from "react";
 
-
 export default function AddPlantForm(props: { onSubmitAction: () => void, onCancelAction: () => void }) {
   const plantDefaults = {
     nickName: "",
     commonName: "",
     purchaseDate: getTodayInHtmlInputFormat(),
     waterInstructions: "",
+    waterFrequency: 0,
     notes: ""
   }
 

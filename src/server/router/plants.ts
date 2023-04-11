@@ -1,6 +1,7 @@
 import {publicProcedure, router} from "./context";
 import {z} from "zod";
 import {MainPlantSummary, MainPlantSummaryPayload} from "../db/types";
+import {addDaysToDate} from "../../utils/dateUtils";
 
 function plantWaterDateComparatorFunction(plantA: MainPlantSummaryPayload, plantB: MainPlantSummaryPayload) {
   if (!plantB.waterDates[0]) return 1;
@@ -121,6 +122,28 @@ export const plantRouter = router({
             waterInstructions: input.waterInstructions,
             waterFrequency: input.waterFrequency,
             notes: input.notes
+          }
+        }),
+      }
+    }),
+  updateNextWaterDate: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        waterFrequency: z.number(),
+        mostRecentWaterDate: z.date()
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const nextWaterDate = addDaysToDate(input.mostRecentWaterDate, input.waterFrequency)
+
+      return {
+        result: await ctx.prismaClient.plant.update({
+          where: {
+            id: input.id
+          },
+          data: {
+            nextWaterDate,
           }
         }),
       }

@@ -49,6 +49,11 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
     await props.refreshData();
   }
 
+  const updatePlantNextWaterDateMutation = trpc.plant.updateNextWaterDate.useMutation({onSuccess: () => {
+      props.refreshData()
+    }}
+  );
+
   const waterDateMutation = trpc.plant.addWaterDate.useMutation({
       onSuccess: () => {
         props.refreshData()
@@ -57,7 +62,11 @@ export default function PlantSummaryCard(props: { plant: MainPlantSummaryPayload
   );
 
   function handleWaterEvent(date: string) {
-    waterDateMutation.mutate({plantId: props.plant.id, waterDate: new Date(date)});
+    const newWaterDate = new Date(date);
+    if(props.plant.waterDates[0] != null && props.plant.waterDates[0].date < newWaterDate && props.plant.waterFrequency != null){
+      updatePlantNextWaterDateMutation.mutate({id: props.plant.id, waterFrequency: props.plant.waterFrequency, mostRecentWaterDate: newWaterDate})
+    }
+    waterDateMutation.mutate({plantId: props.plant.id, waterDate: newWaterDate});
   }
 
   function getWaterDateDisplay() {

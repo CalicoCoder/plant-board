@@ -25,10 +25,11 @@ watering dates. All information on your plants is shown in one large summary vie
 - Water date feature expansion to view/edit all past water dates
 
 # Live Demo
-Demo environment is available at: https://plant-board.vercel.app/board
+~~Demo environment is available at: https://plant-board.vercel.app/board
 
 Feel free to mess around here to your heart's content as I have a separate environment with my personal data until 
-auth/user features are added.
+auth/user features are added.~~
+Free credits are expired on the database plan I previously used so live demo is currently not working.
 
 # Stack
 This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
